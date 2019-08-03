@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple-ViewModel</string>
+    <string name="title_square_area">Square Area</string>
+    <string name="hint_enter_length">Enter length</string>
+    <string name="hint_enter_width">Enter width</string>
+    <string name="hint_enter_height">Enter height</string>
+</resources>
