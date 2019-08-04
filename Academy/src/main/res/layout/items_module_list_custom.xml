@@ -15,7 +15,7 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageModule"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_gravity="center"
@@ -23,7 +23,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/text_module_title"
+            android:id="@+id/textModuleTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -36,7 +36,7 @@
             tools:text="@string/example" />
 
         <TextView
-            android:id="@+id/text_last_seen"
+            android:id="@+id/textLastSeen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
