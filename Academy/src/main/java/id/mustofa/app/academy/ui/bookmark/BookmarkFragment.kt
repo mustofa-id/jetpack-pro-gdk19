@@ -8,16 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.ui.detail.DetailCourseActivity
 import id.mustofa.app.academy.util.Const
-import id.mustofa.app.academy.util.generateCourses
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
 class BookmarkFragment : Fragment() {
 
+    private lateinit var viewModel: BookmarkViewModel
     private lateinit var adapter: BookmarkAdapter
 
     override fun onCreateView(
@@ -29,8 +30,13 @@ class BookmarkFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupViewModel()
         setupAdapter()
         setupRecyclerView()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(this)[BookmarkViewModel::class.java]
     }
 
     private fun setupAdapter() {
@@ -47,7 +53,7 @@ class BookmarkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.loadData(generateCourses())
+        adapter.loadData(viewModel.bookmarks())
     }
 
     private fun openCourseDetail(course: Course) {

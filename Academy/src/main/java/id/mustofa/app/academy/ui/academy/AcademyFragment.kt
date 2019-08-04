@@ -7,16 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.ui.detail.DetailCourseActivity
 import id.mustofa.app.academy.util.Const.EXTRA_COURSE_DETAIL
-import id.mustofa.app.academy.util.generateCourses
 import kotlinx.android.synthetic.main.fragment_academy.*
 
 class AcademyFragment : Fragment() {
 
+    private lateinit var viewModel: AcademyViewModel
     private lateinit var adapter: AcademyAdapter
 
     override fun onCreateView(
@@ -28,8 +29,13 @@ class AcademyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupViewModel()
         setupAdapter()
         setupRecyclerView()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(this)[AcademyViewModel::class.java]
     }
 
     private fun setupAdapter() {
@@ -45,7 +51,7 @@ class AcademyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.loadData(generateCourses())
+        adapter.loadData(viewModel.courses())
     }
 
     private fun openCourseDetail(course: Course) {
