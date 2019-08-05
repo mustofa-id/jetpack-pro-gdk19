@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_poster_height"
+    android:layout_margin="@dimen/view_distance_small"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/imgItemTvshowPoster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/desc_image_poster"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/textItemTvshowRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="#5A000000"
+        android:drawableEnd="@drawable/ic_star_small"
+        android:padding="@dimen/view_distance_tiny"
+        android:textColor="@android:color/white"
+        tools:text="7.2" />
+
+    <TextView
+        android:id="@+id/textItemTvshowTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:background="@drawable/bg_item_movie_title"
+        android:maxLines="1"
+        android:padding="@dimen/view_distance_medium"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        tools:text="@tools:sample/full_names" />
+</FrameLayout>
