@@ -1,13 +1,17 @@
 package id.mustofa.app.amber.ui.detail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.chip.Chip
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.util.Const
 import id.mustofa.app.amber.util.MediaType
+import id.mustofa.app.amber.util.load
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import kotlinx.android.synthetic.main.content_detail_movie.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
@@ -46,6 +50,24 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun populateMovie() {
+        val self = this@DetailMovieActivity
         val movie = viewModel.getMovie()
+        movie.run {
+            self.title = title
+            imgMovieDetailBackdrop.load(posterResId)
+            imgMovieDetailPoster.load(posterResId)
+            textMovieDetailTitle.text = title
+            textMovieDetailDate.text = releaseDate
+            rateMovieDetailRating.rating = voteAverage / 2
+            textMovieDetailOverview.text = overview
+            genres.forEach {
+                val chip = Chip(self).apply {
+                    text = it
+                    isClickable = false
+                    setTextColor(Color.DKGRAY)
+                }
+                cgMovieDetailGenres.addView(chip)
+            }
+        }
     }
 }
