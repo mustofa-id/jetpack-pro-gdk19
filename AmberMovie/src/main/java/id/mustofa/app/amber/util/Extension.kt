@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.annotation.GlideModule
@@ -26,6 +29,23 @@ fun Activity.toActivity(clz: KClass<*>, extras: ((Intent) -> Unit)? = null) {
     val intent = Intent(applicationContext, clz.java)
     extras?.invoke(intent)
     startActivity(intent)
+}
+
+fun AppCompatActivity.bindFragment(
+    fragment: Fragment,
+    tag: String,
+    @IdRes container: Int = android.R.id.content,
+    replace: Boolean = false,
+    allowStateLoss: Boolean = false
+) {
+    supportFragmentManager
+        .beginTransaction().apply {
+            if (replace) replace(container, fragment, tag)
+            else add(container, fragment, tag)
+        }.run {
+            if (allowStateLoss) commitAllowingStateLoss()
+            else commit()
+        }
 }
 
 fun Activity.snackIt(
