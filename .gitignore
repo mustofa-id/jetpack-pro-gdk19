@@ -225,4 +225,7 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# AndroidStudio log
+.attach_pid*
+
 # End of https://www.gitignore.io/api/git,linux,android,androidstudio
