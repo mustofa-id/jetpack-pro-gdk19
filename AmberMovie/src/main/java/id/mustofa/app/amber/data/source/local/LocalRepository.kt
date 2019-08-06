@@ -105,8 +105,6 @@ class LocalRepository {
                 listOf("SCIENCE FICTION", "ACTION"),
                 R.drawable.poster_venom
             )
-            // TV Show
-
         )
     }
 
