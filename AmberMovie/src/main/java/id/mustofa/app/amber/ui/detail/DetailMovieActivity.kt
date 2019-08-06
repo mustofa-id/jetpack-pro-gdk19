@@ -10,6 +10,7 @@ import id.mustofa.app.amber.R
 import id.mustofa.app.amber.util.Const
 import id.mustofa.app.amber.util.MediaType
 import id.mustofa.app.amber.util.load
+import id.mustofa.app.amber.util.snackIt
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.content_detail_movie.*
 
@@ -23,6 +24,7 @@ class DetailMovieActivity : AppCompatActivity() {
         setupToolbar()
         setupViewModel()
         loadExtras()
+        setupActions()
         populateMovie()
     }
 
@@ -40,6 +42,10 @@ class DetailMovieActivity : AppCompatActivity() {
             viewModel.movieId = getLongExtra(Const.EXTRA_MOVIE_ID, -1)
             viewModel.type = getSerializableExtra(Const.EXTRA_MOVIE_TYPE) as MediaType
         }
+    }
+
+    private fun setupActions() {
+        detailFabTrailer.setOnClickListener { snackIt(getString(R.string.msg_play_trailer)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

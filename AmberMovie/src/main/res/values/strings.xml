@@ -1,17 +1,15 @@
 <resources>
     <string name="app_name">Amber Movie</string>
 
-    <string name="action_settings">Settings</string>
-
     <string name="desc_image_poster">Poster image</string>
     <string name="desc_image_backdrop">Movie image backdrop</string>
 
-    <string name="msg_loading">Loading…</string>
+    <string name="msg_confirm_close">Press again to close application</string>
+    <string name="msg_play_trailer">Playing trailer…</string>
 
     <string name="text_heading_overview">Overview</string>
     <string name="text_heading_genres">Genres</string>
 
     <string name="title_tab_movie">Movie</string>
     <string name="title_tab_tvshow">Tv Show</string>
-    <string name="title_activity_detail_movie">Detail Movie</string>
 </resources>
