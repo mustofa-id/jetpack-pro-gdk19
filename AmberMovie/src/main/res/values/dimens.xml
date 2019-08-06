@@ -12,6 +12,6 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="image_detail_backdrop_height">354</dimen>
-    <dimen name="image_detail_poster_width">122</dimen>
+    <dimen name="image_detail_backdrop_height">354dp</dimen>
+    <dimen name="image_detail_poster_width">122dp</dimen>
 </resources>
