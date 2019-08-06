@@ -8,11 +8,11 @@ import id.mustofa.app.amber.base.BaseModel
  * Indonesia on 05/08/19
  */
 data class Movie(
+    var id: Long,
     var title: String,
     var overview: String,
     var releaseDate: String,
     var voteAverage: Float,
     var genres: List<String>,
-    @DrawableRes var posterResId: Int,
-    var id: Long = (0..999L).random()
+    @DrawableRes var posterResId: Int
 ) : BaseModel(id)
