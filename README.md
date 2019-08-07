@@ -8,21 +8,17 @@ Repository ini merupakan hasil belajar dari [Dicoding Academy](https://www.dicod
 
 * DetailMovieActivityTest:
     * Memuat data Movie
-        * Membuka halaman DetailMovieActivityTest 
-        * Memastikan judul film tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan tanggal rilis film tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan rating film tampil pada RatingBar dan nilainya sesuai dengan harapan
-        * Memastikan ikhtisar film tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan genre film tampil pada Chip dan nilainya sesuai dengan harapan
-        * Memastikan jumlah genre film yang tampil pada ChipGroup sesuai dengan harapan
-    * Memuat data TvShow
-        * Membuka halaman DetailMovieActivityTest 
-        * Memastikan judul acara tv tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan tanggal rilis acara tv tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan rating acara tv tampil pada RatingBar dan nilainya sesuai dengan harapan
-        * Memastikan ikhtisar acara tv tampil pada TextView dan nilainya sesuai dengan harapan
-        * Memastikan genre acara tv tampil pada Chip dan nilainya sesuai dengan harapan
-        * Memastikan jumlah genre acara tv yang tampil pada ChipGroup sesuai dengan harapan
+        * Membuka halaman DetailMovieActivity
+        * Memastikan judul movie tampil pada TextView dan nilainya sesuai dengan harapan
+        * Memastikan tanggal rilis movie tampil pada TextView dan nilainya sesuai dengan harapan
+        * Memastikan rating movie tampil pada RatingBar dan nilainya sesuai dengan harapan
+        * Memastikan ikhtisar movie tampil pada TextView dan nilainya sesuai dengan harapan
+        * Memastikan genre movie tampil pada Chip dan nilainya sesuai dengan harapan
+        * Memastikan jumlah genre movie yang tampil pada ChipGroup sesuai dengan harapan
+    * Memuat gambar poster dan backdrop
+        * Membuka halaman DetailMovieActivity
+        * Memastikan gambar poster tampil
+        * Memastikan gambar backdrop tampil
 
 * HomeActivityTest:
     * Menampilkan Tab dan Halaman
@@ -43,12 +39,12 @@ Repository ini merupakan hasil belajar dari [Dicoding Academy](https://www.dicod
 
 * MovieFragmentTest:
     * Memuat data Movies
-        * Membuka halaman MovieFragmentTest
+        * Membuka halaman MovieFragment
         * Memastikan RecyclerView dapat tampil
         * Memastikan jumlah item pada RecyclerView sesuai harapan
 
 * TvshowFragmentTest:
     * Memuat data TvShows
-        * Membuka halaman TvshowFragmentTest
+        * Membuka halaman TvshowFragment
         * Memastikan RecyclerView dapat tampil
         * Memastikan jumlah item pada RecyclerView sesuai harapan
