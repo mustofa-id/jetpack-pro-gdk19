@@ -20,7 +20,7 @@ Repository ini merupakan hasil belajar dari [Dicoding Academy](https://www.dicod
         * Memastikan gambar poster tampil
         * Memastikan gambar backdrop tampil
 
-* HomeActivityTest:
+* AmberMovieTest:
     * Menampilkan Tab dan Halaman
         * Memastikan jumlah tab yang tampil 2 tab
         * Memastikan judul tab yang tampil Movie dan Tv Show
