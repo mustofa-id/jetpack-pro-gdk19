@@ -24,8 +24,6 @@ Repository ini merupakan hasil belajar dari [Dicoding Academy](https://www.dicod
     * Menampilkan Tab dan Halaman
         * Memastikan jumlah tab yang tampil 2 tab
         * Memastikan judul tab yang tampil Movie dan Tv Show
-        * Memastikan RecyclerView pada halaman Movie tampil
-        * Memastikan RecyclerView pada halaman Tv Show tampil
     * Berpindah ke DetailMovieActivity
         * Memastikan RecyclerView pada halaman Movie tampil
         * Memberi aksi klik pada item pertama RecyclerView Movie
