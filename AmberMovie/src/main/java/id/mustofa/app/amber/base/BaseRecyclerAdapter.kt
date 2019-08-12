@@ -17,7 +17,7 @@ abstract class BaseRecyclerAdapter<T : BaseModel> :
 
     override fun getItemCount() = data.size
 
-    override fun getItemId(position: Int) = data[position]._id
+    override fun getItemId(position: Int) = data[position].id
 
     override fun setHasStableIds(hasStableIds: Boolean) = super.setHasStableIds(true)
 
