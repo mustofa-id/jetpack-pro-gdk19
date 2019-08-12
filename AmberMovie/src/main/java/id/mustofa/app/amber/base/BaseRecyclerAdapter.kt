@@ -38,6 +38,7 @@ abstract class BaseRecyclerAdapter<T : BaseModel> :
 
     abstract inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
         open fun setItem(item: T) {
+            // only set view click listener if itemClickListener not null
             itemClickListener?.let { itemView.setOnClickListener { it(item) } }
         }
     }

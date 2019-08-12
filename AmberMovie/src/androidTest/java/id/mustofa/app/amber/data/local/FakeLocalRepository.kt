@@ -22,18 +22,4 @@ class FakeLocalRepository {
             )
         )
     }
-
-    fun tvshows(): List<Movie> {
-        return listOf(
-            Movie(
-                11111,
-                "Arrow",
-                "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
-                "October 10, 2012",
-                5.79f,
-                listOf("CRIME", "DRAMA", "MYSTERY", "ACTION & ADVENTURE"),
-                R.drawable.poster_arrow
-            )
-        )
-    }
 }
