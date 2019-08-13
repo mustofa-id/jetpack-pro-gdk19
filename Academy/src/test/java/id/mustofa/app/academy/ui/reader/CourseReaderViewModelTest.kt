@@ -18,7 +18,7 @@ class CourseReaderViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = CourseReaderViewModel()
+        // viewModel = CourseReaderViewModel(academyRepository)
         viewModel.courseId = "a14"
 
         moduleId = "a14sm1"

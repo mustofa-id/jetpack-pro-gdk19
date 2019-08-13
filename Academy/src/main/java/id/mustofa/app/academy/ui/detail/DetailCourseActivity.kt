@@ -3,7 +3,6 @@ package id.mustofa.app.academy.ui.detail
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
@@ -11,6 +10,7 @@ import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.ui.reader.CourseReaderActivity
 import id.mustofa.app.academy.util.Const
 import id.mustofa.app.academy.util.load
+import id.mustofa.app.academy.util.obtainViewModel
 import kotlinx.android.synthetic.main.activity_detail_course.*
 import kotlinx.android.synthetic.main.content_detail_course.*
 
@@ -31,7 +31,7 @@ class DetailCourseActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this)[DetailCourseViewModel::class.java]
+        viewModel = obtainViewModel(DetailCourseViewModel::class)
     }
 
     private fun setupAdapter() {

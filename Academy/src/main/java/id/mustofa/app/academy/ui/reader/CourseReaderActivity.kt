@@ -2,12 +2,12 @@ package id.mustofa.app.academy.ui.reader
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Module
 import id.mustofa.app.academy.ui.reader.content.ModuleContentFragment
 import id.mustofa.app.academy.ui.reader.list.ModuleListFragment
 import id.mustofa.app.academy.util.Const
+import id.mustofa.app.academy.util.obtainViewModel
 
 class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
 
@@ -17,7 +17,7 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_reader)
 
-        viewModel = ViewModelProviders.of(this)[CourseReaderViewModel::class.java]
+        viewModel = obtainViewModel(CourseReaderViewModel::class)
 
         intent.extras?.run {
             viewModel.courseId = getString(Const.EXTRA_COURSE_READ)!!

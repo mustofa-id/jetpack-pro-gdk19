@@ -17,7 +17,7 @@ class DetailCourseViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = DetailCourseViewModel()
+        // viewModel = DetailCourseViewModel(academyRepository)
         course = Course(
             "a14",
             "Menjadi Android Developer Expert",

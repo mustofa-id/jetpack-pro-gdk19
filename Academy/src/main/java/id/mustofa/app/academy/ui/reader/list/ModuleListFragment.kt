@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
+import id.mustofa.app.academy.ui.reader.CourseReaderActivity
 import id.mustofa.app.academy.ui.reader.CourseReaderCallback
 import id.mustofa.app.academy.ui.reader.CourseReaderViewModel
+import id.mustofa.app.academy.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_module_list.*
 
 class ModuleListFragment : Fragment() {
@@ -41,8 +42,7 @@ class ModuleListFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        // NOTE: lifecycle owner must be activity
-        viewModel = ViewModelProviders.of(activity!!)[CourseReaderViewModel::class.java]
+        viewModel = (activity as CourseReaderActivity).obtainViewModel(CourseReaderViewModel::class)
     }
 
     private fun setupAdapter() {
