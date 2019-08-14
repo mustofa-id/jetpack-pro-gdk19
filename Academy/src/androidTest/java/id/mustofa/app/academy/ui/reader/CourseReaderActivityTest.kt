@@ -12,8 +12,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.util.Const
+import id.mustofa.app.academy.util.DummyData
 import id.mustofa.app.academy.util.RecyclerViewItemCountAssertion
-import id.mustofa.app.academy.util.generateCourses
 import org.junit.Rule
 import org.junit.Test
 
@@ -23,7 +23,7 @@ import org.junit.Test
  */
 class CourseReaderActivityTest {
 
-    private val course = generateCourses()[0]
+    private val course = DummyData.generateCourses()[0]
 
     @Rule
     @JvmField
