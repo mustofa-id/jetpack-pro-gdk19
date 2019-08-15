@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
@@ -33,6 +34,7 @@ class BookmarkFragment : Fragment() {
         setupViewModel()
         setupAdapter()
         setupRecyclerView()
+        subscribeObserve()
     }
 
     private fun setupViewModel() {
@@ -51,9 +53,12 @@ class BookmarkFragment : Fragment() {
         rvBookmark.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.loadData(viewModel.bookmarks())
+    private fun subscribeObserve() {
+        pbBookmark.visibility = View.VISIBLE
+        viewModel.bookmarks().observe(this, Observer {
+            adapter.loadData(it)
+            pbBookmark.visibility = View.GONE
+        })
     }
 
     private fun openCourseDetail(course: Course) {

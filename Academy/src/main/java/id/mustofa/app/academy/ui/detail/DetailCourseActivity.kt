@@ -2,7 +2,9 @@ package id.mustofa.app.academy.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
@@ -48,10 +50,15 @@ class DetailCourseActivity : AppCompatActivity() {
     }
 
     private fun getCourseExtra() {
+        pbDetailCourse.visibility = View.VISIBLE
         intent.extras?.run {
             viewModel.courseId = getString(Const.EXTRA_COURSE_DETAIL, null)
-            adapter.loadData(viewModel.modules())
-            populateCourse(viewModel.course())
+            val lifecycleOwner = this@DetailCourseActivity
+            viewModel.course().observe(lifecycleOwner, Observer { it?.let { populateCourse(it) } })
+            viewModel.modules().observe(lifecycleOwner, Observer {
+                adapter.loadData(it)
+                pbDetailCourse.visibility = View.GONE
+            })
         }
     }
 

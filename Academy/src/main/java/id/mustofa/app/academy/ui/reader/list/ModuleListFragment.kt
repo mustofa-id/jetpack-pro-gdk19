@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
@@ -38,6 +39,7 @@ class ModuleListFragment : Fragment() {
         setupViewModel()
         setupAdapter()
         setupRecyclerView()
+        subscribeObserve()
     }
 
     private fun setupViewModel() {
@@ -60,8 +62,11 @@ class ModuleListFragment : Fragment() {
         rvModuleList.addItemDecoration(decoration)
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.loadData(viewModel.modules())
+    private fun subscribeObserve() {
+        pbModuleList.visibility = View.VISIBLE
+        viewModel.modules().observe(this, Observer {
+            adapter.loadData(it)
+            pbModuleList.visibility = View.GONE
+        })
     }
 }

@@ -1,5 +1,6 @@
 package id.mustofa.app.academy.ui.bookmark
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.data.source.AcademyRepository
@@ -10,7 +11,7 @@ import id.mustofa.app.academy.data.source.AcademyRepository
  */
 class BookmarkViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
 
-    fun bookmarks(): List<Course> {
+    fun bookmarks(): LiveData<List<Course>> {
         return academyRepository.getBookmarkedCourses()
     }
 }

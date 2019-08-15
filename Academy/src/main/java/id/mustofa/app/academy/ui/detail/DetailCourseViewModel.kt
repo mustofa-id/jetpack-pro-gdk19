@@ -1,5 +1,6 @@
 package id.mustofa.app.academy.ui.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.data.Module
@@ -13,11 +14,11 @@ class DetailCourseViewModel(private val academyRepository: AcademyRepository) : 
 
     lateinit var courseId: String
 
-    fun course(): Course {
-        return academyRepository.getCourseWithModules(courseId)!!
+    fun course(): LiveData<Course?> {
+        return academyRepository.getCourseWithModules(courseId)
     }
 
-    fun modules(): List<Module> {
+    fun modules(): LiveData<List<Module>> {
         return academyRepository.getAllModulesByCourse(courseId)
     }
 }

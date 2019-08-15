@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
@@ -32,6 +33,7 @@ class AcademyFragment : Fragment() {
         setupViewModel()
         setupAdapter()
         setupRecyclerView()
+        subscribeObserve()
     }
 
     private fun setupViewModel() {
@@ -49,9 +51,12 @@ class AcademyFragment : Fragment() {
         rvAcademy.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.loadData(viewModel.courses())
+    private fun subscribeObserve() {
+        pbAcademy.visibility = View.VISIBLE
+        viewModel.courses().observe(this, Observer {
+            adapter.loadData(it)
+            pbAcademy.visibility = View.GONE
+        })
     }
 
     private fun openCourseDetail(course: Course) {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Content
 import id.mustofa.app.academy.ui.reader.CourseReaderViewModel
@@ -26,7 +27,12 @@ class ModuleContentFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = activity!!.obtainViewModel(CourseReaderViewModel::class)
-        viewModel.module().run { content?.let { populateWebView(it) } }
+
+        pbModuleContent.visibility = View.VISIBLE
+        viewModel.module().observe(this, Observer {
+            it?.content?.let { content -> populateWebView(content) }
+            pbModuleContent.visibility = View.GONE
+        })
     }
 
     private fun populateWebView(content: Content) {
