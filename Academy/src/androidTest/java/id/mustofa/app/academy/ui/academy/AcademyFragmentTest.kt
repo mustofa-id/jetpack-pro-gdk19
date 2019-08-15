@@ -30,6 +30,7 @@ class AcademyFragmentTest {
 
     @Test
     fun loadCourses() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvAcademy)).check(matches(isDisplayed()))
         onView(withId(R.id.rvAcademy)).check(RecyclerViewItemCountAssertion(5))
     }

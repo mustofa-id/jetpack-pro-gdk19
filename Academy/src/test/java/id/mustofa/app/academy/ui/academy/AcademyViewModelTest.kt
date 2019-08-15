@@ -1,10 +1,13 @@
 package id.mustofa.app.academy.ui.academy
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.data.source.AcademyRepository
 import id.mustofa.app.academy.util.FakeData
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 
@@ -13,6 +16,9 @@ import org.mockito.Mockito.*
  * Indonesia on 04/08/19
  */
 class AcademyViewModelTest {
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: AcademyViewModel
     private var academyRepository = mock(AcademyRepository::class.java)
@@ -24,10 +30,16 @@ class AcademyViewModelTest {
 
     @Test
     fun courses() {
-        `when`(academyRepository.getAllCourses()).thenReturn(FakeData.generateCourses())
-        val courses = viewModel.courses()
-        verify(academyRepository).getAllCourses()
-        assertNotNull(courses)
-        assertEquals(5, courses.size)
+        val fakeCourses = FakeData.generateCourses()
+        val liveCourses = MutableLiveData<List<Course>>()
+        liveCourses.value = fakeCourses
+        `when`(academyRepository.getAllCourses()).thenReturn(liveCourses)
+
+        @Suppress("UNCHECKED_CAST")
+        val observer = mock(Observer::class.java) as Observer<List<Course>>
+
+        viewModel.courses().observeForever(observer)
+
+        verify(observer).onChanged(fakeCourses)
     }
 }

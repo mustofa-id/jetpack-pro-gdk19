@@ -39,12 +39,14 @@ class CourseReaderActivityTest {
 
     @Test
     fun loadModule() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvModuleList)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModuleList)).check(RecyclerViewItemCountAssertion(7))
     }
 
     @Test
     fun clickModule() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvModuleList)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModuleList)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())

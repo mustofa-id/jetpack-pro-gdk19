@@ -30,6 +30,7 @@ class BookmarkFragmentTest {
 
     @Test
     fun loadCourses() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvBookmark)).check(matches(isDisplayed()))
         onView(withId(R.id.rvBookmark)).check(RecyclerViewItemCountAssertion(5))
     }

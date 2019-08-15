@@ -1,24 +1,29 @@
 package id.mustofa.app.academy.data.source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.*
 import id.mustofa.app.academy.data.source.remote.AcademyRemoteDataSource
+import id.mustofa.app.academy.data.source.remote.response.ContentResponse
+import id.mustofa.app.academy.data.source.remote.response.CourseResponse
+import id.mustofa.app.academy.data.source.remote.response.ModuleResponse
 import id.mustofa.app.academy.util.FakeData
+import id.mustofa.app.academy.util.LiveDataTestUtil
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.*
 
 /**
  * @author Habib Mustofa
  * Indonesia on 15/08/19
  */
+@Suppress("UNCHECKED_CAST")
 class AcademyRepositoryTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val remoteDataSource = mock(AcademyRemoteDataSource::class.java)
+    private val remoteDataSource: AcademyRemoteDataSource = mock()
     private val academyRepository = FakeAcademyRepository(remoteDataSource)
 
     private val courseResponse = FakeData.generateRemoteCourses()
@@ -30,38 +35,87 @@ class AcademyRepositoryTest {
 
     @Test
     fun getAllCourses() {
-        `when`(remoteDataSource.getAllCourses()).thenReturn(courseResponse)
-        val courses = academyRepository.getAllCourses()
-        verify(remoteDataSource).getAllCourses()
-        assertNotNull(courses)
-        assertEquals(courseResponse.size, courses.size)
+        doAnswer {
+            (it.arguments[0] as (List<CourseResponse>) -> Unit).invoke(courseResponse)
+            null
+        }.`when`(remoteDataSource).getAllCourses(any())
+
+        val result = LiveDataTestUtil.getValue(academyRepository.getAllCourses())
+        verify(remoteDataSource, times(1)).getAllCourses(any())
+
+        assertNotNull(result)
+        assertEquals(courseResponse.size, result.size)
     }
 
     @Test
     fun getAllModulesByCourse() {
-        `when`(remoteDataSource.getAllCourses()).thenReturn(courseResponse)
-        val bookmarkedCourses = academyRepository.getBookmarkedCourses()
-        verify(remoteDataSource).getAllCourses()
-        assertNotNull(bookmarkedCourses)
-        assertEquals(courseResponse.size, bookmarkedCourses.size)
+        doAnswer {
+            (it.arguments[1] as (List<ModuleResponse>) -> Unit).invoke(moduleResponse)
+            null
+        }.`when`(remoteDataSource).getModules(eq(courseResponseId), any())
+
+        val result = LiveDataTestUtil.getValue(
+            academyRepository.getAllModulesByCourse(courseResponseId)
+        )
+        verify(remoteDataSource, times(1)).getModules(eq(courseResponseId), any())
+
+        assertNotNull(result)
+        assertEquals(moduleResponse.size, result.size)
+    }
+
+    @Test
+    fun getBookmarkedCourses() {
+        doAnswer {
+            (it.arguments[0] as (List<CourseResponse>) -> Unit).invoke(courseResponse)
+            null
+        }.`when`(remoteDataSource).getAllCourses(any())
+
+        val result = LiveDataTestUtil.getValue(academyRepository.getBookmarkedCourses())
+        verify(remoteDataSource, times(1)).getAllCourses(any())
+
+        assertNotNull(result)
+        assertEquals(courseResponse.size, result.size)
     }
 
     @Test
     fun getContent() {
-        `when`(remoteDataSource.getModules(courseResponseId)).thenReturn(moduleResponse)
-        `when`(remoteDataSource.getContent(moduleResponseId)).thenReturn(contentResponse)
-        val module = academyRepository.getContent(courseResponseId, moduleResponseId)
-        verify(remoteDataSource).getContent(moduleResponseId)
-        assertNotNull(module)
-        assertEquals(contentResponse.content, module?.content?.content)
+        doAnswer {
+            (it.arguments[1] as (List<ModuleResponse>) -> Unit).invoke(moduleResponse)
+            null
+        }.`when`(remoteDataSource).getModules(eq(courseResponseId), any())
+
+        doAnswer {
+            (it.arguments[1] as (ContentResponse) -> Unit).invoke(contentResponse)
+            null
+        }.`when`(remoteDataSource).getContent(eq(moduleResponseId), any())
+
+        val result = LiveDataTestUtil.getValue(
+            academyRepository.getContent(courseResponseId, moduleResponseId)
+        )
+
+        verify(remoteDataSource, times(1)).getModules(eq(courseResponseId), any())
+        verify(remoteDataSource, times(1)).getContent(eq(moduleResponseId), any())
+
+        assertNotNull(result)
+        assertNotNull(result?.content)
+        assertNotNull(result?.content?.content)
+        assertEquals(contentResponse.content, result?.content?.content)
     }
 
     @Test
     fun getCourseWithModules() {
-        `when`(remoteDataSource.getAllCourses()).thenReturn(courseResponse)
-        val course = academyRepository.getCourseWithModules(courseResponseId)
-        verify(remoteDataSource).getAllCourses()
-        assertNotNull(course)
-        assertEquals(courseResponse[0].title, course?.title)
+        doAnswer {
+            (it.arguments[0] as (List<CourseResponse>) -> Unit).invoke(courseResponse)
+            null
+        }.`when`(remoteDataSource).getAllCourses(any())
+
+        val result = LiveDataTestUtil.getValue(
+            academyRepository.getCourseWithModules(courseResponseId)
+        )
+        verify(remoteDataSource, times(1)).getAllCourses(any())
+
+        assertNotNull(result)
+        assertNotNull(result?.title)
+        assertEquals(courseResponse[0].title, result?.title)
     }
 }

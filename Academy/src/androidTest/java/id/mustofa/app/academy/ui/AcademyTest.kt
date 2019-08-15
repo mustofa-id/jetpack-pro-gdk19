@@ -24,29 +24,38 @@ class AcademyTest {
 
     @Test
     fun toDetailActivity() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvAcademy)).check(matches(isDisplayed()))
         onView(withId(R.id.rvAcademy)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
+
+        Thread.sleep(2500)
         onView(withId(R.id.textDetailTitle)).check(matches(isDisplayed()))
         onView(withId(R.id.textDetailTitle)).check(matches(withText("Menjadi Android Developer Expert")))
     }
 
     @Test
     fun toReaderActivity() {
+        Thread.sleep(2500)
         onView(withId(R.id.rvAcademy)).check(matches(isDisplayed()))
         onView(withId(R.id.rvAcademy)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
+
+        Thread.sleep(2500)
         onView(withId(R.id.btnDetailStart)).check(matches(isDisplayed()))
         onView(withId(R.id.btnDetailStart)).perform(click())
 
         onView(withId(R.id.frame_container)).check(matches(isDisplayed()))
+
+        Thread.sleep(2500)
         onView(withId(R.id.rvModuleList)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModuleList)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
 
+        Thread.sleep(2500)
         onView(withId(R.id.webView)).check(matches(isDisplayed()))
     }
 }
