@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.ui.detail.DetailCourseActivity
-import id.mustofa.app.academy.ui.home.HomeActivity
 import id.mustofa.app.academy.util.Const
 import id.mustofa.app.academy.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_bookmark.*
@@ -37,7 +36,7 @@ class BookmarkFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = (activity as HomeActivity).obtainViewModel(BookmarkViewModel::class)
+        viewModel = activity!!.obtainViewModel(BookmarkViewModel::class)
     }
 
     private fun setupAdapter() {

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Course
 import id.mustofa.app.academy.ui.detail.DetailCourseActivity
-import id.mustofa.app.academy.ui.home.HomeActivity
 import id.mustofa.app.academy.util.Const.EXTRA_COURSE_DETAIL
 import id.mustofa.app.academy.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_academy.*
@@ -36,7 +35,7 @@ class AcademyFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = (activity as HomeActivity).obtainViewModel(AcademyViewModel::class)
+        viewModel = activity!!.obtainViewModel(AcademyViewModel::class)
     }
 
     private fun setupAdapter() {

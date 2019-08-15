@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.academy.R
-import id.mustofa.app.academy.ui.reader.CourseReaderActivity
 import id.mustofa.app.academy.ui.reader.CourseReaderCallback
 import id.mustofa.app.academy.ui.reader.CourseReaderViewModel
 import id.mustofa.app.academy.util.obtainViewModel
@@ -42,7 +41,7 @@ class ModuleListFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = (activity as CourseReaderActivity).obtainViewModel(CourseReaderViewModel::class)
+        viewModel = activity!!.obtainViewModel(CourseReaderViewModel::class)
     }
 
     private fun setupAdapter() {

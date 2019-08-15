@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.data.Content
-import id.mustofa.app.academy.ui.reader.CourseReaderActivity
 import id.mustofa.app.academy.ui.reader.CourseReaderViewModel
 import id.mustofa.app.academy.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_module_content.*
@@ -26,7 +25,7 @@ class ModuleContentFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = (activity as CourseReaderActivity).obtainViewModel(CourseReaderViewModel::class)
+        viewModel = activity!!.obtainViewModel(CourseReaderViewModel::class)
         viewModel.module().run { content?.let { populateWebView(it) } }
     }
 

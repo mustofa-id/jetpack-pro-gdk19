@@ -2,7 +2,7 @@ package id.mustofa.app.academy.util
 
 import android.content.Context
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.GlideBuilder
@@ -34,5 +34,5 @@ class ImageModule : AppGlideModule() {
 fun ImageView.load(imagePath: String) =
     GlideApp.with(rootView).load(imagePath).into(this)
 
-fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModel: KClass<T>) =
+fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
     ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]
