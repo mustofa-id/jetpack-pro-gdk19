@@ -68,7 +68,7 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // retrofit
-    def retrofit_version = "2.6.0"
+    def retrofit_version = "2.6.1"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
