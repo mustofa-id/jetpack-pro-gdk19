@@ -2,6 +2,7 @@ package id.mustofa.app.academy.ui.detail
 
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
@@ -9,7 +10,10 @@ import androidx.test.rule.ActivityTestRule
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.util.Const
 import id.mustofa.app.academy.util.DummyData
+import id.mustofa.app.academy.util.EspressoIdlingResource
 import id.mustofa.app.academy.util.RecyclerViewItemCountAssertion
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -33,9 +37,18 @@ class DetailCourseActivityTest {
             }
         }
 
+    @Before
+    fun setup() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun teardown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
+
     @Test
     fun loadCourse() {
-        Thread.sleep(2500)
         onView(withId(R.id.textDetailTitle)).check(matches(isDisplayed()))
         onView(withId(R.id.textDetailTitle)).check(matches(withText(dummyCourse.title)))
         onView(withId(R.id.textDetailDate)).check(matches(isDisplayed()))
@@ -45,7 +58,6 @@ class DetailCourseActivityTest {
 
     @Test
     fun loadModule() {
-        Thread.sleep(2500)
         onView(withId(R.id.rvModule)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModule)).check(RecyclerViewItemCountAssertion(7))
     }

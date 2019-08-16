@@ -3,6 +3,7 @@ package id.mustofa.app.academy.ui.reader
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -13,7 +14,10 @@ import androidx.test.rule.ActivityTestRule
 import id.mustofa.app.academy.R
 import id.mustofa.app.academy.util.Const
 import id.mustofa.app.academy.util.DummyData
+import id.mustofa.app.academy.util.EspressoIdlingResource
 import id.mustofa.app.academy.util.RecyclerViewItemCountAssertion
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -37,16 +41,24 @@ class CourseReaderActivityTest {
             }
         }
 
+    @Before
+    fun setup() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun teardown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
+
     @Test
     fun loadModule() {
-        Thread.sleep(2500)
         onView(withId(R.id.rvModuleList)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModuleList)).check(RecyclerViewItemCountAssertion(7))
     }
 
     @Test
     fun clickModule() {
-        Thread.sleep(2500)
         onView(withId(R.id.rvModuleList)).check(matches(isDisplayed()))
         onView(withId(R.id.rvModuleList)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
