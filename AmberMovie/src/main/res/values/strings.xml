@@ -12,4 +12,8 @@
 
     <string name="title_tab_movie">Movie</string>
     <string name="title_tab_tvshow">Tv Show</string>
+    <string name="msg_failed_fetch_data">Failed to fetch data!</string>
+    <string name="msg_something_wrong">Something went wrong!</string>
+    <string name="msg_no_data">No data!</string>
+    <string name="msg_not_found">No data found!</string>
 </resources>

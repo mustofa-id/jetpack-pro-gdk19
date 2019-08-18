@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.base.BaseRecyclerAdapter
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.util.load
+import id.mustofa.app.amber.util.loadTmdbImage
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 /**
@@ -19,7 +19,7 @@ class MovieAdapter : BaseRecyclerAdapter<Movie>() {
             override fun setItem(item: Movie) {
                 super.setItem(item)
                 itemView.run {
-                    imgItemMoviePoster.load(item.posterResId)
+                    imgItemMoviePoster.loadTmdbImage(item.posterPath)
                     textItemMovieRating.text = item.voteAverage.toString()
                     textItemMovieTitle.text = item.title
                 }

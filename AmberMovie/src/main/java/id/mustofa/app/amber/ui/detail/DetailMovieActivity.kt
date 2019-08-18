@@ -3,14 +3,13 @@ package id.mustofa.app.amber.ui.detail
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.util.Const
-import id.mustofa.app.amber.util.MediaType
-import id.mustofa.app.amber.util.load
-import id.mustofa.app.amber.util.snackIt
+import id.mustofa.app.amber.data.Movie
+import id.mustofa.app.amber.util.*
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.content_detail_movie.*
 
@@ -22,10 +21,16 @@ class DetailMovieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_movie)
         setupToolbar()
-        setupViewModel()
-        loadExtras()
         setupActions()
-        populateMovie()
+        setupViewModel()
+        loadIntentExtras()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupToolbar() {
@@ -33,42 +38,41 @@ class DetailMovieActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this)[DetailMovieViewModel::class.java]
-    }
-
-    private fun loadExtras() {
-        intent.run {
-            viewModel.movieId = getLongExtra(Const.EXTRA_MOVIE_ID, -1)
-            viewModel.type = getSerializableExtra(Const.EXTRA_MOVIE_TYPE) as MediaType
-        }
-    }
-
     private fun setupActions() {
-        detailFabTrailer.setOnClickListener { snackIt(getString(R.string.msg_play_trailer)) }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> onBackPressed()
+        detailFabTrailer.setOnClickListener {
+            snackIt(getString(R.string.msg_play_trailer), parent = it)
         }
-        return super.onOptionsItemSelected(item)
     }
 
-    private fun populateMovie() {
+    private fun setupViewModel() {
+        viewModel = obtainViewModel(DetailMovieViewModel::class)
+        viewModel.movie.observe(this, Observer { populateMovie(it) })
+        viewModel.message.observe(this, Observer { snackIt(getString(it)) })
+        viewModel.loading.observe(this, Observer {
+            pbDetailMovie.visibility = if (it) View.VISIBLE else View.GONE
+        })
+    }
+
+    private fun loadIntentExtras() {
+        intent.run {
+            viewModel.type = getSerializableExtra(Const.EXTRA_MOVIE_TYPE) as MediaType
+            viewModel.movieId = getLongExtra(Const.EXTRA_MOVIE_ID, -1)
+        }
+    }
+
+    private fun populateMovie(movie: Movie) {
         val self = this@DetailMovieActivity
-        val movie = viewModel.getMovie()
         movie.run {
-            self.title = title
-            imgMovieDetailBackdrop.load(posterResId)
-            imgMovieDetailPoster.load(posterResId)
+            detailToolbarLayout.title = title
+            imgMovieDetailBackdrop.loadTmdbImage(backdropPath)
+            imgMovieDetailPoster.loadTmdbImage(posterPath)
             textMovieDetailTitle.text = title
             textMovieDetailDate.text = releaseDate
             rateMovieDetailRating.rating = voteAverage / 2
             textMovieDetailOverview.text = overview
             genres.forEach {
                 val chip = Chip(self).apply {
-                    text = it
+                    text = it.name
                     isClickable = false
                     setTextColor(Color.DKGRAY)
                 }

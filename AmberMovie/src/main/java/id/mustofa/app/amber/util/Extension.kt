@@ -3,11 +3,15 @@ package id.mustofa.app.amber.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
@@ -16,6 +20,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import id.mustofa.app.amber.R
+import id.mustofa.app.amber.ViewModelFactory
 import kotlin.reflect.KClass
 
 /**
@@ -23,6 +28,7 @@ import kotlin.reflect.KClass
  * Indonesia on 05/08/19
  */
 
+// ---> Glide image loader
 @GlideModule
 class ImageModule : AppGlideModule() {
     override fun applyOptions(context: Context, builder: GlideBuilder) {
@@ -30,6 +36,7 @@ class ImageModule : AppGlideModule() {
         val loader = CircularProgressDrawable(context).apply {
             strokeWidth = 3f
             centerRadius = 32f
+            setColorSchemeColors(Color.YELLOW)
             start()
         }
         val options = RequestOptions()
@@ -40,10 +47,16 @@ class ImageModule : AppGlideModule() {
     }
 }
 
-fun Activity.toActivity(clz: KClass<*>, extras: ((Intent) -> Unit)? = null) {
-    val intent = Intent(applicationContext, clz.java)
-    extras?.invoke(intent)
-    startActivity(intent)
+fun ImageView.loadTmdbImage(path: String, size: String = "w185") {
+    val imagePath = "https://image.tmdb.org/t/p/$size$path"
+    GlideApp.with(rootView).load(imagePath).into(this)
+}
+
+// ---> Activities
+fun Activity.toActivity(clz: KClass<*>, intent: (Intent.() -> Unit)? = null) {
+    val activityIntent = Intent(applicationContext, clz.java)
+    intent?.invoke(activityIntent)
+    startActivity(activityIntent)
 }
 
 fun AppCompatActivity.bindFragment(
@@ -67,14 +80,12 @@ fun Activity.snackIt(
     message: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     parent: View = findViewById(android.R.id.content),
-    self: ((Snackbar) -> Unit)? = null
+    self: (Snackbar.() -> Unit)? = null
 ) {
     val snack = Snackbar.make(parent, message, duration)
     self?.invoke(snack)
     snack.show()
 }
 
-fun <T> ImageView.load(image: T) {
-    GlideApp.with(rootView)
-        .load(image).into(this)
-}
+fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
+    ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]

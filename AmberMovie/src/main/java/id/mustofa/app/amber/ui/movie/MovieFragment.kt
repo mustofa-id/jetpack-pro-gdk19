@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.ui.detail.DetailMovieActivity
-import id.mustofa.app.amber.util.Const
-import id.mustofa.app.amber.util.MediaType
-import id.mustofa.app.amber.util.toActivity
+import id.mustofa.app.amber.util.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 
+// TODO: setup viewModel & observers may can simply using extension
 class MovieFragment : Fragment() {
 
     private lateinit var viewModel: MovieViewModel
@@ -28,15 +27,12 @@ class MovieFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupViewModel()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         setupAdapter()
         setupRecyclerView()
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this)[MovieViewModel::class.java]
+        setupViewModel()
+        setupRefreshLayout()
     }
 
     private fun setupAdapter() {
@@ -51,15 +47,29 @@ class MovieFragment : Fragment() {
         rvMovieFragment.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.populateData(viewModel.getMovies())
+    private fun setupViewModel() {
+        // activity has been created
+        viewModel = activity!!.obtainViewModel(MovieViewModel::class)
+
+        // subscribe observer
+        // NOTE: Using viewLifecycleOwner instead of fragment to avoid leaking liveData observers
+        val owner = viewLifecycleOwner
+        viewModel.allMovies.observe(owner, Observer { adapter.populateData(it) })
+        viewModel.loading.observe(owner, Observer { srMovieFragment.isRefreshing = it })
+        viewModel.message.observe(owner, Observer { activity?.snackIt(getString(it)) })
+        viewModel.empty.observe(owner, Observer {
+            textMovieFragmentMessage.visibility = if (it) View.VISIBLE else View.GONE
+        })
+    }
+
+    private fun setupRefreshLayout() {
+        srMovieFragment.setOnRefreshListener(viewModel::fetchAllMovies)
     }
 
     private fun openDetail(movie: Movie) {
         activity?.toActivity(DetailMovieActivity::class) {
-            it.putExtra(Const.EXTRA_MOVIE_ID, movie.id)
-            it.putExtra(Const.EXTRA_MOVIE_TYPE, MediaType.MOVIE)
+            putExtra(Const.EXTRA_MOVIE_ID, movie.id)
+            putExtra(Const.EXTRA_MOVIE_TYPE, MediaType.MOVIE)
         }
     }
 }

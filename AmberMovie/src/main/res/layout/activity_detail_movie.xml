@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/detailToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -96,7 +97,6 @@
         <include layout="@layout/content_detail_movie" />
     </androidx.core.widget.NestedScrollView>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/detailFabTrailer"
         android:layout_width="wrap_content"
@@ -105,5 +105,11 @@
         app:layout_anchor="@id/detailAppBar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_play" />
+
+    <ProgressBar
+        android:id="@+id/pbDetailMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

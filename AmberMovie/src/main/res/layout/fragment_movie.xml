@@ -1,9 +1,30 @@
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvMovieFragment"
+    android:id="@+id/srMovieFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingTop="@dimen/view_distance_medium"
-    android:paddingBottom="@dimen/view_distance_medium"
-    tools:context=".ui.movie.MovieFragment" />
+    tools:context=".ui.movie.MovieFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovieFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/view_distance_medium"
+            android:paddingBottom="@dimen/view_distance_medium" />
+
+        <TextView
+            android:id="@+id/textMovieFragmentMessage"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/view_distance_normal"
+            android:text="@string/msg_no_data"
+            android:textAlignment="center" />
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
