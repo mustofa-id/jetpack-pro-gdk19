@@ -2,15 +2,18 @@ package id.mustofa.app.amber.ui.detail
 
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.data.local.FakeLocalRepository
+import id.mustofa.app.amber.data.FakeAndroidMovieData
 import id.mustofa.app.amber.util.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -20,8 +23,7 @@ import org.junit.Test
  */
 class DetailMovieActivityTest {
 
-    private val repository = FakeLocalRepository()
-    private val movie = repository.movies()[0]
+    private val movie = FakeAndroidMovieData.getMovie()
 
     @get:Rule
     val activityRule =
@@ -34,6 +36,16 @@ class DetailMovieActivityTest {
                 }
             }
         }
+
+    @Before
+    fun setup() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun teardown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
 
     @Test
     fun loadMovie() {
@@ -52,7 +64,7 @@ class DetailMovieActivityTest {
 
         onView(withId(R.id.cgMovieDetailGenres))
             .check(matches(chipsCount(`is`(movie.genres.size))))
-            .check(matches(chipsValue(movie.genres)))
+            .check(matches(chipsValue(movie.genres.map { it.name })))
     }
 
     @Test
