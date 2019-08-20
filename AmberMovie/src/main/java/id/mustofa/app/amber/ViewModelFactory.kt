@@ -20,9 +20,8 @@ class ViewModelFactory private constructor(
 
         @Volatile
         private var instance: ViewModelFactory? = null
-        private val lock = Any()
 
-        fun instance(app: Application) = instance ?: synchronized(lock) {
+        fun instance(app: Application) = instance ?: synchronized(this) {
             instance ?: ViewModelFactory(Injection.provideRepository(app))
         }
     }

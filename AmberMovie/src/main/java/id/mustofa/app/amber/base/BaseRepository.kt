@@ -2,7 +2,7 @@ package id.mustofa.app.amber.base
 
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.data.Result
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
@@ -12,8 +12,10 @@ import retrofit2.Response
  */
 abstract class BaseRepository {
 
+    protected abstract val dispatcher: CoroutineDispatcher
+
     protected suspend fun <T> networkCall(result: suspend () -> Response<T>): Result<T> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             try {
                 with(result()) {
                     when {

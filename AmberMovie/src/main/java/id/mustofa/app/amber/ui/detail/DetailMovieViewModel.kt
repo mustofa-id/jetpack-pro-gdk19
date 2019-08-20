@@ -35,7 +35,7 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
         fetchMovie()
     }
 
-    private fun fetchMovie() {
+    fun fetchMovie() {
         _loading.postValue(true)
         viewModelScope.launch {
             // NOTE: Any coroutine launched in this scope is

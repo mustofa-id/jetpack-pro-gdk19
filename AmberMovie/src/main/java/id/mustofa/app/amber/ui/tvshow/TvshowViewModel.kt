@@ -31,7 +31,9 @@ class TvshowViewModel(private val movieRepository: MovieRepository) : ViewModel(
         fetchAllTvshows()
     }
 
-    fun fetchAllTvshows() {
+    fun fetchAllTvshows(force: Boolean = false) {
+        if (force) _allTvshows.value = null
+
         _loading.postValue(true)
         viewModelScope.launch {
             // NOTE: Any coroutine launched in this scope is

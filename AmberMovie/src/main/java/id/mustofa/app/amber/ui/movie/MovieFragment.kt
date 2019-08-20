@@ -63,7 +63,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun setupRefreshLayout() {
-        srMovieFragment.setOnRefreshListener(viewModel::fetchAllMovies)
+        srMovieFragment.setOnRefreshListener { viewModel.fetchAllMovies(true) }
     }
 
     private fun openDetail(movie: Movie) {

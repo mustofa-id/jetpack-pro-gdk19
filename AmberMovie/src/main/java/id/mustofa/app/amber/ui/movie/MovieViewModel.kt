@@ -31,7 +31,9 @@ class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel()
         fetchAllMovies()
     }
 
-    fun fetchAllMovies() {
+    fun fetchAllMovies(force: Boolean = false) {
+        if (force) _allMovies.value = null
+
         _loading.postValue(true)
         viewModelScope.launch {
             // NOTE: Any coroutine launched in this scope is

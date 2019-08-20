@@ -63,7 +63,7 @@ class TvshowFragment : Fragment() {
     }
 
     private fun setupRefreshLayout() {
-        srTvshowFragment.setOnRefreshListener(viewModel::fetchAllTvshows)
+        srTvshowFragment.setOnRefreshListener { viewModel.fetchAllTvshows(true) }
     }
 
     private fun openDetail(movie: Movie) {
