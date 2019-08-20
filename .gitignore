@@ -1,6 +1,9 @@
 # Created by https://www.gitignore.io/api/git,linux,android,androidstudio
 # Edit at https://www.gitignore.io/?templates=git,linux,android,androidstudio
 
+# User defined
+app.properties
+
 ### Android ###
 # Built application files
 *.apk
