@@ -101,4 +101,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test:core:1.2.0"
     androidTestImplementation "androidx.test:rules:1.2.0"
+
+    // coroutines test
+    def coroutines_version = "1.2.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }

@@ -1,73 +1,80 @@
 package id.mustofa.app.amber.ui.detail
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import id.mustofa.app.amber.LiveDataTestUtil
+import id.mustofa.app.amber.MainCoroutineRule
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.data.Movie
+import id.mustofa.app.amber.data.FakeMovieData
+import id.mustofa.app.amber.data.source.FakeMovieRepository
 import id.mustofa.app.amber.util.MediaType
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 /**
  * @author Habib Mustofa
  * Indonesia on 06/08/19
  */
+@ExperimentalCoroutinesApi
 class DetailMovieViewModelTest {
 
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
+
     private lateinit var viewModel: DetailMovieViewModel
-    private lateinit var movie: Movie
-    private lateinit var tvshow: Movie
+    private lateinit var movieRepository: FakeMovieRepository
+
+    private val fakeMovie = FakeMovieData.getMovies()[0]
+    private val movieId = fakeMovie.id
 
     @Before
     fun setup() {
-        viewModel = DetailMovieViewModel()
+        movieRepository = FakeMovieRepository()
+        movieRepository.addMovies(fakeMovie)
 
-        movie = Movie(
-            11101,
-            "Avenger Infinity War",
-            "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.",
-            "April 27, 2018",
-            8.3f,
-            listOf("Adventure", "Action", "Fantasy"),
-            R.drawable.poster_avengerinfinity
-        )
-
-        tvshow = Movie(
-            11111,
-            "Arrow",
-            "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
-            "October 10, 2012",
-            5.79f,
-            listOf("CRIME", "DRAMA", "MYSTERY", "ACTION & ADVENTURE"),
-            R.drawable.poster_arrow
-        )
-    }
-
-    @Test
-    fun movie_Should_Not_Be_Null() {
-        viewModel.type = MediaType.MOVIE
-        viewModel.movieId = 11101
-        assertNotNull(viewModel.getMovie())
-    }
-
-    @Test
-    fun movie_Should_Be_Match_With() {
-        viewModel.type = MediaType.MOVIE
-        viewModel.movieId = 11101
-        assertEquals(movie, viewModel.getMovie())
-    }
-
-    @Test
-    fun tvshow_Should_Not_Be_Null() {
+        viewModel = DetailMovieViewModel(movieRepository)
         viewModel.type = MediaType.TV
-        viewModel.movieId = 11111
-        assertNotNull(viewModel.getMovie())
     }
 
     @Test
-    fun tvshow_Should_Be_Match_With() {
-        viewModel.type = MediaType.TV
-        viewModel.movieId = 11111
-        assertEquals(tvshow, viewModel.getMovie())
+    fun `get movie and load into view`() {
+        viewModel.movieId = movieId
+        viewModel.fetchMovie()
+        assertEquals(LiveDataTestUtil.getValue(viewModel.movie), fakeMovie)
+    }
+
+    @Test
+    fun `get error movie not found`() {
+        viewModel.movieId = 0
+        viewModel.fetchMovie()
+        assertNull(LiveDataTestUtil.getValue(viewModel.movie))
+        assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_not_found)
+    }
+
+    @Test
+    fun `get error movie something wrong`() {
+        movieRepository.shouldReturnError = true
+
+        viewModel.movieId = movieId
+        viewModel.fetchMovie()
+        assertNull(LiveDataTestUtil.getValue(viewModel.movie))
+        assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_something_wrong)
+    }
+
+    @Test
+    fun `get movie and loading`() {
+        viewModel.movieId = movieId
+
+        mainCoroutineRule.pauseDispatcher()
+        viewModel.fetchMovie()
+        assertTrue(LiveDataTestUtil.getValue(viewModel.loading))
+
+        mainCoroutineRule.resumeDispatcher()
+        assertFalse(LiveDataTestUtil.getValue(viewModel.loading))
     }
 }
