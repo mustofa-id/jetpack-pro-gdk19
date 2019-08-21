@@ -53,7 +53,7 @@ class MovieViewModelTest {
 
         viewModel.fetchAllMovies(true)
 
-        assertNull(LiveDataTestUtil.getValue(viewModel.allMovies))
+        assertTrue(LiveDataTestUtil.getValue(viewModel.allMovies).isEmpty())
         assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_something_wrong)
     }
 

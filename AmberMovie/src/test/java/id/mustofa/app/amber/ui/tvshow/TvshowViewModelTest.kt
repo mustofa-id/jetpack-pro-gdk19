@@ -53,7 +53,7 @@ class TvshowViewModelTest {
 
         viewModel.fetchAllTvshows(true)
 
-        assertNull(LiveDataTestUtil.getValue(viewModel.allTvshows))
+        assertTrue(LiveDataTestUtil.getValue(viewModel.allTvshows).isEmpty())
         assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_something_wrong)
     }
 
