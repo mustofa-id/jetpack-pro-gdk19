@@ -32,7 +32,7 @@ class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel()
     }
 
     fun fetchAllMovies(force: Boolean = false) {
-        if (force) _allMovies.value = null
+        if (force) _allMovies.value = listOf()
 
         _loading.postValue(true)
         viewModelScope.launch {
