@@ -2,6 +2,7 @@ package id.mustofa.app.amber
 
 import android.app.Application
 import id.mustofa.app.amber.data.source.DefaultMovieRepository
+import id.mustofa.app.amber.data.source.local.AppDatabase
 import id.mustofa.app.amber.data.source.remote.ApiClient
 
 /**
@@ -10,10 +11,10 @@ import id.mustofa.app.amber.data.source.remote.ApiClient
  */
 object Injection {
 
-    @Suppress("UNUSED_PARAMETER") // PLAN: `app` will used as ROOM database context
     fun provideRepository(app: Application): DefaultMovieRepository {
         return DefaultMovieRepository(
-            ApiClient.movieRemoteDataSource
+            ApiClient.movieRemoteDataSource,
+            AppDatabase(app.applicationContext).movieLocalDataSource()
         )
     }
 }

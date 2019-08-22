@@ -19,6 +19,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.ViewModelFactory
 import kotlin.reflect.KClass
@@ -48,8 +50,10 @@ class ImageModule : AppGlideModule() {
 }
 
 fun ImageView.loadTmdbImage(path: String, size: String = "w185") {
-    val imagePath = "https://image.tmdb.org/t/p/$size$path"
-    GlideApp.with(rootView).load(imagePath).into(this)
+    if (path.isNotBlank()) {
+        val imagePath = "https://image.tmdb.org/t/p/$size$path"
+        GlideApp.with(rootView).load(imagePath).into(this)
+    }
 }
 
 // ---> Activities
@@ -89,3 +93,7 @@ fun Activity.snackIt(
 
 fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
     ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]
+
+// ---> Gson
+inline fun <reified T> Gson.fromJson(value: String): T =
+    this.fromJson(value, object : TypeToken<T>() {}.type)

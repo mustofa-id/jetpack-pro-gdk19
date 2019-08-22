@@ -17,4 +17,12 @@ interface MovieRepository {
     suspend fun getMovieById(id: Long): Result<Movie>
 
     suspend fun getTvshowById(id: Long): Result<Movie>
+
+    suspend fun getMovieFavorites(): Result<List<Movie>>
+
+    suspend fun getTvshowFavorites(): Result<List<Movie>>
+
+    suspend fun addMovieToFavorite(movie: Movie): Result<Long>
+
+    suspend fun removeMovieFromFavorite(movieId: Long): Result<Int>
 }
