@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import id.mustofa.app.amber.R
@@ -14,7 +15,6 @@ import id.mustofa.app.amber.ui.detail.DetailMovieActivity
 import id.mustofa.app.amber.util.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 
-// TODO: setup viewModel & observers may can simply using extension
 class MovieFragment : Fragment() {
 
     private lateinit var viewModel: MovieViewModel
@@ -48,8 +48,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        // activity has been created
-        viewModel = activity!!.obtainViewModel(MovieViewModel::class)
+        viewModel = (activity as FragmentActivity).obtainViewModel(MovieViewModel::class)
 
         // subscribe observer
         // NOTE: Using viewLifecycleOwner instead of fragment to avoid leaking liveData observers

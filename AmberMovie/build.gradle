@@ -9,7 +9,7 @@ appProps.load(project.rootProject.file("app.properties").newDataInputStream())
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "id.mustofa.app.amber"
         minSdkVersion 21
@@ -18,7 +18,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // Create field called MovieDbApiKey and store api key from appProps with tmdb.appid key
+        // Create field called MOVIEDB_API_KEY and store api key from appProps with tmdb.appid key
         buildConfigField 'String', 'MOVIEDB_API_KEY', "\"${appProps.getProperty('tmdb.apikey', '')}\""
     }
     buildTypes {
