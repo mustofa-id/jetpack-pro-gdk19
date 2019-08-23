@@ -10,8 +10,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
@@ -63,6 +62,7 @@ fun Activity.toActivity(clz: KClass<*>, intent: (Intent.() -> Unit)? = null) {
     startActivity(activityIntent)
 }
 
+// TODO: remove if not used in main
 fun AppCompatActivity.bindFragment(
     fragment: Fragment,
     tag: String,
@@ -93,6 +93,10 @@ fun Activity.snackIt(
 
 fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
     ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]
+
+fun FragmentActivity.snackItObserve(message: LiveData<Int>, lifecycleOwner: LifecycleOwner) {
+    message.observe(lifecycleOwner, Observer { snackIt(getString(it)) })
+}
 
 // ---> Gson
 inline fun <reified T> Gson.fromJson(value: String): T =

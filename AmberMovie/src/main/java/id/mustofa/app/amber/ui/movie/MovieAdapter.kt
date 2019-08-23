@@ -1,11 +1,10 @@
 package id.mustofa.app.amber.ui.movie
 
-import android.view.View
+import androidx.databinding.ViewDataBinding
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.base.SimpleRecyclerAdapter
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.util.loadTmdbImage
-import kotlinx.android.synthetic.main.item_movie.view.*
+import id.mustofa.app.amber.databinding.ItemMovieBinding
 
 /**
  * @author Habib Mustofa
@@ -13,15 +12,12 @@ import kotlinx.android.synthetic.main.item_movie.view.*
  */
 class MovieAdapter : SimpleRecyclerAdapter<Movie>(R.layout.item_movie) {
 
-    override fun getViewHolder(view: View) = MovieViewHolder(view)
+    override fun getViewHolder(dataBinding: ViewDataBinding) =
+        MovieViewHolder(dataBinding as ItemMovieBinding)
 
-    inner class MovieViewHolder(view: View) : Holder(view) {
+    inner class MovieViewHolder(private val binding: ItemMovieBinding) : Holder(binding.root) {
         override fun setItem(item: Movie) {
-            itemView.run {
-                imgItemMoviePoster.loadTmdbImage(item.posterPath)
-                textItemMovieRating.text = item.voteAverage.toString()
-                textItemMovieTitle.text = item.title
-            }
+            binding.movie = item
         }
     }
 }

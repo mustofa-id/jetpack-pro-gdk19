@@ -1,11 +1,10 @@
 package id.mustofa.app.amber.ui.tvshow
 
-import android.view.View
+import androidx.databinding.ViewDataBinding
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.base.SimpleRecyclerAdapter
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.util.loadTmdbImage
-import kotlinx.android.synthetic.main.item_tvshow.view.*
+import id.mustofa.app.amber.databinding.ItemTvshowBinding
 
 /**
  * @author Habib Mustofa
@@ -13,15 +12,12 @@ import kotlinx.android.synthetic.main.item_tvshow.view.*
  */
 class TvshowAdapter : SimpleRecyclerAdapter<Movie>(R.layout.item_tvshow) {
 
-    override fun getViewHolder(view: View) = TvshowViewHolder(view)
+    override fun getViewHolder(dataBinding: ViewDataBinding) =
+        TvshowViewHolder(dataBinding as ItemTvshowBinding)
 
-    inner class TvshowViewHolder(view: View) : Holder(view) {
+    inner class TvshowViewHolder(private val binding: ItemTvshowBinding) : Holder(binding.root) {
         override fun setItem(item: Movie) {
-            itemView.run {
-                imgItemTvshowPoster.loadTmdbImage(item.posterPath)
-                textItemTvshowRating.text = String.format("%.1f", item.voteAverage)
-                textItemTvshowTitle.text = item.title
-            }
+            binding.tv = item
         }
     }
 }

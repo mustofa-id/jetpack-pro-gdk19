@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/item_poster_height"
-    android:layout_margin="@dimen/view_distance_small"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imgItemMoviePoster"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/desc_image_poster"
-        android:scaleType="centerCrop" />
+        android:layout_height="@dimen/item_poster_height"
+        android:layout_margin="@dimen/view_distance_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/textItemMovieRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#5A000000"
-        android:drawableStart="@drawable/ic_star_small"
-        android:padding="@dimen/view_distance_tiny"
-        android:textColor="@android:color/white"
-        tools:text="7.2" />
+        <ImageView
+            android:id="@+id/imgItemMoviePoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/desc_image_poster"
+            android:scaleType="centerCrop"
+            app:srcSmall="@{movie.posterPath}" />
 
-    <TextView
-        android:id="@+id/textItemMovieTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:background="@drawable/bg_item_movie_title"
-        android:maxLines="1"
-        android:padding="@dimen/view_distance_medium"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        tools:text="@tools:sample/lorem[2]" />
-</FrameLayout>
+        <TextView
+            android:id="@+id/textItemMovieRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#5A000000"
+            android:drawableStart="@drawable/ic_star_small"
+            android:padding="@dimen/view_distance_tiny"
+            android:text="@{String.valueOf(movie.voteAverage / 2)}"
+            android:textColor="@android:color/white"
+            tools:text="7.2" />
+
+        <TextView
+            android:id="@+id/textItemMovieTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:background="@drawable/bg_item_movie_title"
+            android:maxLines="1"
+            android:padding="@dimen/view_distance_medium"
+            android:text="@{movie.title}"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            tools:text="@tools:sample/lorem[2]" />
+    </FrameLayout>
+
+    <data>
+
+        <variable
+            name="movie"
+            type="id.mustofa.app.amber.data.Movie" />
+    </data>
+</layout>

@@ -1,30 +1,43 @@
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/srMovieFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.movie.MovieFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.fetchAllMovies(true)}"
+        app:refreshing="@{viewModel.loading}"
+        tools:context=".ui.movie.MovieFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMovieFragment"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/view_distance_medium"
-            android:paddingBottom="@dimen/view_distance_medium" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textMovieFragmentMessage"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/view_distance_normal"
-            android:text="@string/msg_no_data"
-            android:textAlignment="center" />
-    </FrameLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/view_distance_normal"
+                android:text="@string/msg_no_data"
+                android:textAlignment="center"
+                app:shown="@{viewModel.empty}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovieFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/view_distance_medium"
+                android:paddingBottom="@dimen/view_distance_medium"
+                app:items="@{viewModel.allMovies}" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="id.mustofa.app.amber.ui.movie.MovieViewModel" />
+    </data>
+</layout>

@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -22,22 +24,23 @@ abstract class SimpleRecyclerAdapter<T : BaseModel>(@LayoutRes private val layou
 
     override fun setHasStableIds(hasStableIds: Boolean) = super.setHasStableIds(true)
 
+    override fun onBindViewHolder(holder: Holder, position: Int) = holder.setItem(data[position])
+
+    abstract fun getViewHolder(dataBinding: ViewDataBinding): Holder
+
+    abstract inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun setItem(item: T)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        val holder = getViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, layout, parent, false)
+        val holder = getViewHolder(binding)
         // only set view click listener if itemClickListener not null
         itemClickListener?.let {
             holder.itemView.setOnClickListener { it(data[holder.adapterPosition]) }
         }
         return holder
-    }
-
-    override fun onBindViewHolder(holder: Holder, position: Int) = holder.setItem(data[position])
-
-    abstract fun getViewHolder(view: View): Holder
-
-    abstract inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun setItem(item: T)
     }
 
     fun populateData(data: List<T>, notify: Boolean = true) {
