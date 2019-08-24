@@ -13,10 +13,10 @@ class DataTypeConverter {
     private val gson: Gson by lazy { Gson() }
 
     @TypeConverter
-    fun genresToString(genres: List<Genre>): String = gson.toJson(genres)
+    fun genresToString(genres: List<Genre>): String = gson.toJsonString(genres)
 
     @TypeConverter
-    fun stringToGenres(genres: String): List<Genre> = gson.fromJson(genres)
+    fun stringToGenres(genres: String): List<Genre> = gson.fromJsonString(genres)
 
     @TypeConverter
     fun mediaTypeToString(mediaType: MediaType) = mediaType.toString()

@@ -110,7 +110,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <ImageButton
+                        style="@style/Widget.AppCompat.ActionButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> viewModel.toggleFavorite()}"
+                        app:srcLive="@{viewModel.favoriteIcon}" />
+
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

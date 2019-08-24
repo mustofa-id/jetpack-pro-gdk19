@@ -32,4 +32,16 @@ abstract class BaseRepository {
             }
         }
     }
+
+    protected suspend fun <T> localCall(result: suspend () -> T): Result<T> {
+        wrapWithEspressoIdlingResource {
+            return withContext(dispatcher) {
+                try {
+                    Result.Success(result())
+                } catch (e: Exception) {
+                    Result.Error(R.string.msg_something_wrong)
+                }
+            }
+        }
+    }
 }

@@ -1,9 +1,7 @@
 package id.mustofa.app.amber.ui.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import id.mustofa.app.amber.R
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result.Error
 import id.mustofa.app.amber.data.Result.Success
@@ -29,6 +27,12 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
+    private val _isFavorite = MutableLiveData<Boolean>()
+
+    val favoriteIcon: LiveData<Int> = Transformations.map(_isFavorite) {
+        if (it) R.drawable.ic_favorite else R.drawable.ic_not_favorite
+    }
+
     init {
         // NOTE: load data following activity lifetime
         // So load function will not trigger every configuration change
@@ -36,19 +40,60 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
     }
 
     fun fetchMovie() {
-        _loading.postValue(true)
+        _loading.value = true
         viewModelScope.launch {
             // NOTE: Any coroutine launched in this scope is
             // automatically canceled if the ViewModel is cleared.
+            _isFavorite.postValue(movieRepository.isInFavorite(movieId))
+
             val result = when (type) {
                 MediaType.MOVIE -> movieRepository.getMovieById(movieId)
                 MediaType.TV -> movieRepository.getTvshowById(movieId)
             }
+
             when (result) {
                 is Success -> _movie.postValue(result.data)
                 is Error -> _message.postValue(result.message)
             }
             _loading.postValue(false)
+        }
+    }
+
+    fun toggleFavorite() {
+        _movie.value?.let {
+            val favorite = _isFavorite.value ?: false
+            _isFavorite.value = !favorite
+            viewModelScope.launch {
+
+                fun errorResult(message: Int) {
+                    _message.postValue(message)
+                    _isFavorite.postValue(favorite)
+                }
+
+                if (favorite) {
+                    when (val res = movieRepository.removeMovieFromFavorite(it.id)) {
+                        is Error -> errorResult(res.message)
+                        is Success -> res.data?.let {
+                            _message.postValue(
+                                if (it > 0) R.string.msg_removed_favorite
+                                else R.string.msg_failed_remove_favorite
+                            )
+                        }
+                    }
+                } else {
+                    when (val res = movieRepository.addMovieToFavorite(it.apply {
+                        mediaType = type
+                    })) {
+                        is Error -> errorResult(res.message)
+                        is Success -> res.data?.let {
+                            _message.postValue(
+                                if (it > 0) R.string.msg_added_favorite
+                                else R.string.msg_failed_add_favorite
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

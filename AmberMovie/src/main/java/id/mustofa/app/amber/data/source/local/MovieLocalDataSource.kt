@@ -17,9 +17,12 @@ interface MovieLocalDataSource {
     @Query("SELECT * FROM movie_favorite WHERE mediaType=:type")
     suspend fun getFavorites(type: MediaType): List<Movie>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addToFavorite(movie: Movie): Long
 
     @Query("DELETE FROM movie_favorite WHERE id=:movieId")
     suspend fun removeFromFavorite(movieId: Long): Int
+
+    @Query("SELECT count(id) FROM movie_favorite WHERE id=:id")
+    suspend fun isInFavorite(id: Long): Int
 }

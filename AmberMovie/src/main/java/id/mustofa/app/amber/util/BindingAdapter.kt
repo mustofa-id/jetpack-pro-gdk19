@@ -2,6 +2,7 @@ package id.mustofa.app.amber.util
 
 import android.graphics.Color
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,11 @@ fun <T : BaseModel> RecyclerView.setItems(items: List<T>?) {
 @BindingAdapter("app:srcSmall")
 fun ImageView.load185(path: String?) {
     path?.let { loadTmdbImage(it) }
+}
+
+@BindingAdapter("app:srcLive")
+fun ImageButton.srcLive(resId: Int?) {
+    resId?.let { setImageResource(it) }
 }
 
 @BindingAdapter("app:childrenGenres")

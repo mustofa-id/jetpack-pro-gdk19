@@ -99,5 +99,8 @@ fun FragmentActivity.snackItObserve(message: LiveData<Int>, lifecycleOwner: Life
 }
 
 // ---> Gson
-inline fun <reified T> Gson.fromJson(value: String): T =
+inline fun <reified T> Gson.fromJsonString(value: String): T =
     this.fromJson(value, object : TypeToken<T>() {}.type)
+
+inline fun <reified T> Gson.toJsonString(value: T): String =
+    this.toJson(value, object : TypeToken<T>() {}.type)

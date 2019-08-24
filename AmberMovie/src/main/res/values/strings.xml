@@ -16,4 +16,8 @@
     <string name="msg_something_wrong">Something went wrong!</string>
     <string name="msg_no_data">No data!</string>
     <string name="msg_not_found">No data found!</string>
+    <string name="msg_added_favorite">Added to favorite</string>
+    <string name="msg_removed_favorite">Removed from favorite</string>
+    <string name="msg_failed_remove_favorite">Can\'t remove favorite!</string>
+    <string name="msg_failed_add_favorite">Can\'t add favorite!</string>
 </resources>

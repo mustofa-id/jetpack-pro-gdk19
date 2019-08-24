@@ -54,30 +54,28 @@ class DefaultMovieRepository private constructor(
     }
 
     override suspend fun getMovieFavorites(): Result<List<Movie>> {
-        return withContext(dispatcher) {
-            localDataSource.getFavorites(MediaType.MOVIE)
-            TODO("not implemented")
-        }
+        return localCall { localDataSource.getFavorites(MediaType.MOVIE) }
     }
 
     override suspend fun getTvshowFavorites(): Result<List<Movie>> {
-        return withContext(dispatcher) {
-            localDataSource.getFavorites(MediaType.TV)
-            TODO("not implemented")
-        }
+        return localCall { localDataSource.getFavorites(MediaType.TV) }
     }
 
     override suspend fun addMovieToFavorite(movie: Movie): Result<Long> {
-        return withContext(dispatcher) {
-            localDataSource.addToFavorite(movie)
-            TODO("not implemented")
-        }
+        return localCall { localDataSource.addToFavorite(movie) }
     }
 
     override suspend fun removeMovieFromFavorite(movieId: Long): Result<Int> {
+        return localCall { localDataSource.removeFromFavorite(movieId) }
+    }
+
+    override suspend fun isInFavorite(id: Long): Boolean {
         return withContext(dispatcher) {
-            localDataSource.removeFromFavorite(movieId)
-            TODO("not implemented")
+            try {
+                localDataSource.isInFavorite(id) > 0
+            } catch (e: Exception) {
+                false
+            }
         }
     }
 }
