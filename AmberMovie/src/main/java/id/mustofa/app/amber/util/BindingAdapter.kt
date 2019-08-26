@@ -24,8 +24,8 @@ fun shown(view: View, shown: Boolean) {
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter("app:items")
 fun <T : BaseModel> RecyclerView.setItems(items: List<T>?) {
-    val itemAdapter = adapter as SimpleRecyclerAdapter<T>
-    items?.let { itemAdapter.populateData(it) }
+    val itemAdapter = adapter as SimpleRecyclerAdapter<T>?
+    items?.let { itemAdapter?.populateData(it) }
 }
 
 @BindingAdapter("app:srcSmall")
@@ -33,6 +33,7 @@ fun ImageView.load185(path: String?) {
     path?.let { loadTmdbImage(it) }
 }
 
+// TODO: Maybe can remove this when use default value
 @BindingAdapter("app:srcLive")
 fun ImageButton.srcLive(resId: Int?) {
     resId?.let { setImageResource(it) }

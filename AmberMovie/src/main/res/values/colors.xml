@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#121212</color>
-    <color name="accent">#ffe082</color> <!--amber 200-->
-
+    <color name="primary">#1F1F1F</color>
+    <color name="accent">#FFE082</color> <!--amber 200-->
+    <color name="background">#121212</color>
 </resources>

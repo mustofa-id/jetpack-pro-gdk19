@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_discover"
+        android:icon="@drawable/ic_discover"
+        android:title="@string/title_nav_discover" />
+    <item
+        android:id="@+id/nav_favorite"
+        android:icon="@drawable/ic_not_favorite"
+        android:title="@string/title_nav_favorite" />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_about"
+        android:title="@string/title_nav_about" />
+</menu>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_poster_height"
+        android:layout_marginStart="@dimen/view_distance_normal"
+        android:layout_marginTop="@dimen/view_distance_small"
+        android:layout_marginEnd="@dimen/view_distance_normal"
+        android:layout_marginBottom="@dimen/view_distance_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_item_movie_radius"
+        app:cardElevation="@dimen/view_distance_medium">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_item_movie_poster"
+                android:layout_width="@dimen/item_poster_width"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/desc_image_poster"
+                android:scaleType="centerCrop"
+                app:srcSmall="@{item.posterPath}" />
+
+            <RatingBar
+                android:id="@+id/rate_item_movie_rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_movie_date"
+                android:layout_marginStart="@dimen/view_distance_medium"
+                android:layout_marginTop="@dimen/view_distance_medium"
+                android:layout_toEndOf="@+id/img_item_movie_poster"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="@{item.voteAverage / 2}"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/text_item_movie_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_movie_title"
+                android:layout_marginStart="@dimen/view_distance_medium"
+                android:layout_marginTop="@dimen/view_distance_small"
+                android:layout_marginEnd="@dimen/view_distance_medium"
+                android:layout_toEndOf="@+id/img_item_movie_poster"
+                android:text="@{item.releaseDate}" />
+
+            <TextView
+                android:id="@+id/text_item_movie_title"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/view_distance_medium"
+                android:layout_marginTop="@dimen/view_distance_medium"
+                android:layout_marginEnd="@dimen/view_distance_medium"
+                android:layout_toEndOf="@+id/img_item_movie_poster"
+                android:text="@{item.title}" />
+
+            <TextView
+                android:id="@+id/text_item_movie_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_movie_date"
+                android:layout_marginStart="@dimen/view_distance_small"
+                android:layout_marginTop="@dimen/view_distance_small"
+                android:layout_toEndOf="@+id/rate_item_movie_rating"
+                android:text="@{String.valueOf(item.voteAverage)}"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_item_movie_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rate_item_movie_rating"
+                android:layout_marginStart="@dimen/view_distance_medium"
+                android:layout_marginTop="@dimen/view_distance_small"
+                android:layout_marginEnd="@dimen/view_distance_medium"
+                android:layout_marginBottom="@dimen/view_distance_medium"
+                android:layout_toEndOf="@+id/img_item_movie_poster"
+                android:maxLines="3"
+                android:text="@{item.overview}" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <data>
+
+        <variable
+            name="item"
+            type="id.mustofa.app.amber.data.Movie" />
+    </data>
+</layout>

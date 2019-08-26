@@ -1,6 +1,10 @@
-package id.mustofa.app.amber.ui.tvshow
+package id.mustofa.app.amber.ui.discover.tvshow
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import id.mustofa.app.amber.base.ListMovieViewModel
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result.Error
 import id.mustofa.app.amber.data.Result.Success
@@ -11,27 +15,27 @@ import kotlinx.coroutines.launch
  * @author Habib Mustofa
  * Indonesia on 05/08/19
  */
-class TvshowViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class TvshowViewModel(private val movieRepository: MovieRepository) : ListMovieViewModel() {
 
     // NOTE: avoid to expose mutable liveData
-    private val _allTvshows = MutableLiveData<List<Movie>>()
-    val allTvshows: LiveData<List<Movie>> get() = _allTvshows
+    private val _allTvshows = MutableLiveData<List<Movie>>().apply { value = emptyList() }
+    override val movies: LiveData<List<Movie>> get() = _allTvshows
 
     private val _message = MutableLiveData<Int>()
-    val message: LiveData<Int> get() = _message
+    override val message: LiveData<Int> get() = _message
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
+    override val loading: LiveData<Boolean> get() = _loading
 
-    val empty: LiveData<Boolean> = Transformations.map(_allTvshows) { it.isEmpty() }
+    override val empty: LiveData<Boolean> = Transformations.map(_allTvshows) { it.isEmpty() }
 
     init {
         // NOTE: load data following Fragment lifetime
         // So load function will not trigger every configuration change
-        fetchAllTvshows()
+        fetchMovies()
     }
 
-    fun fetchAllTvshows(force: Boolean = false) {
+    override fun fetchMovies(force: Boolean) {
         if (force) _allTvshows.value = listOf()
 
         _loading.postValue(true)

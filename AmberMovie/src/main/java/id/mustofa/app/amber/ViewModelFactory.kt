@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.mustofa.app.amber.data.source.MovieRepository
 import id.mustofa.app.amber.ui.detail.DetailMovieViewModel
-import id.mustofa.app.amber.ui.movie.MovieViewModel
-import id.mustofa.app.amber.ui.tvshow.TvshowViewModel
+import id.mustofa.app.amber.ui.discover.movie.MovieViewModel
+import id.mustofa.app.amber.ui.discover.tvshow.TvshowViewModel
+import id.mustofa.app.amber.ui.favorite.movie.MovieFavoriteViewModel
+import id.mustofa.app.amber.ui.favorite.tvshow.TvshowFavoriteViewModel
 
 /**
  * @author Habib Mustofa
@@ -35,6 +37,10 @@ class ViewModelFactory private constructor(
                 MovieViewModel(movieRepository)
             isAssignableFrom(TvshowViewModel::class.java) ->
                 TvshowViewModel(movieRepository)
+            isAssignableFrom(MovieFavoriteViewModel::class.java) ->
+                MovieFavoriteViewModel(movieRepository)
+            isAssignableFrom(TvshowFavoriteViewModel::class.java) ->
+                TvshowFavoriteViewModel(movieRepository)
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     } as T

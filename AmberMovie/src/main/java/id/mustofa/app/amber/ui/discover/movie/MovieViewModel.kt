@@ -1,6 +1,10 @@
-package id.mustofa.app.amber.ui.movie
+package id.mustofa.app.amber.ui.discover.movie
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import id.mustofa.app.amber.base.ListMovieViewModel
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result.Error
 import id.mustofa.app.amber.data.Result.Success
@@ -11,27 +15,27 @@ import kotlinx.coroutines.launch
  * @author Habib Mustofa
  * Indonesia on 05/08/19
  */
-class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val movieRepository: MovieRepository) : ListMovieViewModel() {
 
     // NOTE: avoid to expose mutable liveData
-    private val _allMovies = MutableLiveData<List<Movie>>()
-    val allMovies: LiveData<List<Movie>> get() = _allMovies
+    private val _allMovies = MutableLiveData<List<Movie>>().apply { value = emptyList() }
+    override val movies = _allMovies
 
     private val _message = MutableLiveData<Int>()
-    val message: LiveData<Int> get() = _message
+    override val message = _message
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
+    override val loading = _loading
 
-    val empty: LiveData<Boolean> = Transformations.map(_allMovies) { it.isEmpty() }
+    override val empty: LiveData<Boolean> = Transformations.map(_allMovies) { it.isEmpty() }
 
     init {
         // NOTE: load data following Fragment lifetime
         // So load function will not trigger every configuration change
-        fetchAllMovies()
+        fetchMovies()
     }
 
-    fun fetchAllMovies(force: Boolean = false) {
+    override fun fetchMovies(force: Boolean) {
         if (force) _allMovies.value = listOf()
 
         _loading.postValue(true)

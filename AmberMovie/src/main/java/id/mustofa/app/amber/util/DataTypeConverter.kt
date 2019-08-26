@@ -3,6 +3,7 @@ package id.mustofa.app.amber.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import id.mustofa.app.amber.data.Genre
+import java.util.*
 
 /**
  * @author Habib Mustofa
@@ -22,6 +23,7 @@ class DataTypeConverter {
     fun mediaTypeToString(mediaType: MediaType) = mediaType.toString()
 
     @TypeConverter
-    fun stringToMediaType(mediaType: String) = MediaType.valueOf(mediaType)
+    fun stringToMediaType(mediaType: String) =
+        MediaType.valueOf(mediaType.toUpperCase(Locale.getDefault()))
 }
 

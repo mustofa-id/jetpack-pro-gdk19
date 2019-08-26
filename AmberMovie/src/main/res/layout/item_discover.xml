@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/desc_image_poster"
             android:scaleType="centerCrop"
-            app:srcSmall="@{movie.posterPath}" />
+            app:srcSmall="@{item.posterPath}" />
 
         <TextView
             android:id="@+id/textItemMovieRating"
@@ -26,7 +26,7 @@
             android:background="#5A000000"
             android:drawableStart="@drawable/ic_star_small"
             android:padding="@dimen/view_distance_tiny"
-            android:text="@{String.valueOf(movie.voteAverage / 2)}"
+            android:text="@{String.valueOf(item.voteAverage / 2)}"
             android:textColor="@android:color/white"
             tools:text="7.2" />
 
@@ -38,7 +38,7 @@
             android:background="@drawable/bg_item_movie_title"
             android:maxLines="1"
             android:padding="@dimen/view_distance_medium"
-            android:text="@{movie.title}"
+            android:text="@{item.title}"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             tools:text="@tools:sample/lorem[2]" />
@@ -47,7 +47,7 @@
     <data>
 
         <variable
-            name="movie"
+            name="item"
             type="id.mustofa.app.amber.data.Movie" />
     </data>
 </layout>
