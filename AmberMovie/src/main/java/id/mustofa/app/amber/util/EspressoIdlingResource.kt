@@ -23,18 +23,8 @@ object EspressoIdlingResource {
     }
 }
 
-/*
- * Fix test fail when using default CountingIdlingResource. Caused by:
- * `Method isEmpty in android.text.TextUtils not mocked.`
- * CountingIdlingResource using TextUtils#isEmpty() for check resourceName
- *
- * Code references:
- * https://github.com/googlesamples/android-testing/blob/master/ui/espresso/IdlingResourceSample/app/src/main/java/com/example/android/testing/espresso/IdlingResourceSample/IdlingResource/SimpleIdlingResource.java
- * https://github.com/googlesamples/android-architecture/blob/master/app/src/main/java/com/example/android/architecture/blueprints/todoapp/util/SimpleCountingIdlingResource.kt
- */
 class SimpleIdlingResource(private val resourceName: String) : IdlingResource {
 
-    // private val isIdle = AtomicBoolean(true)
     private val counter = AtomicInteger(0)
 
     @Volatile
@@ -48,23 +38,12 @@ class SimpleIdlingResource(private val resourceName: String) : IdlingResource {
         this.callback = callback
     }
 
-    // fun setIdleState(state: Boolean) {
-    //    isIdle.set(state)
-    //    if (isIdleNow) {
-    //        // notify espresso we are idle now
-    //        callback?.onTransitionToIdle()
-    //    }
-    // }
-
     fun increment() = counter.getAndIncrement()
 
     fun decrement() {
         val counterValue = counter.decrementAndGet()
-        if (counterValue == 0)
-        // notify espresso we are idle now
-            callback?.onTransitionToIdle()
-        else if (counterValue < 0)
-            throw IllegalStateException("Counter corrupted!")
+        if (counterValue == 0) callback?.onTransitionToIdle() // notify espresso we are idle now
+        else check(counterValue >= 0) { "Counter corrupted!" }
     }
 }
 
