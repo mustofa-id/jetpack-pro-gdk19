@@ -9,13 +9,6 @@
         android:fitsSystemWindows="true"
         tools:context=".ui.detail.DetailMovieActivity">
 
-        <ProgressBar
-            android:id="@+id/pbDetailMovie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:shown="@{viewModel.loading}" />
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,7 +16,7 @@
 
             <include
                 android:id="@+id/movieContent"
-                layout="@layout/content_detail_movie" />
+                layout="@layout/content_detail" />
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -135,6 +128,13 @@
             app:layout_anchorGravity="bottom|end"
             app:shown="@{!viewModel.loading}"
             app:srcCompat="@drawable/ic_play" />
+
+        <ProgressBar
+            android:id="@+id/pbDetailMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:shown="@{viewModel.loading}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

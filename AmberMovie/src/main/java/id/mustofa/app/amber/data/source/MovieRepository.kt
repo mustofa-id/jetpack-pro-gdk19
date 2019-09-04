@@ -1,5 +1,6 @@
 package id.mustofa.app.amber.data.source
 
+import androidx.paging.DataSource
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result
 import id.mustofa.app.amber.data.source.remote.Movies
@@ -18,9 +19,9 @@ interface MovieRepository {
 
     suspend fun getTvshowById(id: Long): Result<Movie>
 
-    suspend fun getMovieFavorites(): Result<List<Movie>>
+    suspend fun getMovieFavorites(): Result<DataSource.Factory<Int, Movie>>
 
-    suspend fun getTvshowFavorites(): Result<List<Movie>>
+    suspend fun getTvshowFavorites(): Result<DataSource.Factory<Int, Movie>>
 
     suspend fun addMovieToFavorite(movie: Movie): Result<Long>
 

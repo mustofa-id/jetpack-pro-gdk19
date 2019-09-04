@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.databinding.ActivityDetailMovieBinding
+import id.mustofa.app.amber.databinding.ActivityDetailBinding
 import id.mustofa.app.amber.util.*
-import kotlinx.android.synthetic.main.activity_detail_movie.*
+import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DetailMovieViewModel
-    private lateinit var binding: ActivityDetailMovieBinding
+    private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_movie)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         binding.lifecycleOwner = this
     }
 

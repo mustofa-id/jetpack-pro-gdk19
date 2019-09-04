@@ -1,5 +1,6 @@
 package id.mustofa.app.amber.data.source.local
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +16,7 @@ import id.mustofa.app.amber.util.MediaType
 interface MovieLocalDataSource {
 
     @Query("SELECT * FROM movie_favorite WHERE mediaType=:type")
-    suspend fun getFavorites(type: MediaType): List<Movie>
+    fun getFavorites(type: MediaType): DataSource.Factory<Int, Movie>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addToFavorite(movie: Movie): Long

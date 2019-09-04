@@ -1,25 +1,38 @@
 package id.mustofa.app.amber.ui.favorite
 
-import androidx.databinding.ViewDataBinding
+import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.base.SimpleRecyclerAdapter
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.databinding.ItemFavoriteBinding
+import id.mustofa.app.amber.util.inflateBinding
 
 /**
  * @author Habib Mustofa
  * Indonesia on 26/08/19
  */
-class FavoriteAdapter : SimpleRecyclerAdapter<Movie>(R.layout.item_favorite) {
+class FavoriteAdapter(private val itemCallback: (Movie) -> Unit) :
+    PagedListAdapter<Movie, FavoriteAdapter.MovieView>(Movie.DiffCallback) {
 
-    override fun getViewHolder(dataBinding: ViewDataBinding) =
-        FavoriteViewHolder(dataBinding as ItemFavoriteBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieView {
+        return MovieView(inflateBinding(parent, R.layout.item_favorite)).apply {
+            itemView.setOnClickListener {
+                getItem(adapterPosition)?.let { movie -> itemCallback(movie) }
+            }
+        }
+    }
 
-    inner class FavoriteViewHolder(
+    override fun onBindViewHolder(holder: MovieView, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    inner class MovieView(
         private val binding: ItemFavoriteBinding
-    ) : Holder(binding.root) {
-        override fun setItem(item: Movie) {
-            binding.item = item
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(movie: Movie?) {
+            binding.item = movie
         }
     }
 }

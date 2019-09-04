@@ -34,16 +34,12 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
     }
 
     init {
-        // NOTE: load data following activity lifetime
-        // So load function will not trigger every configuration change
         fetchMovie()
     }
 
     fun fetchMovie() {
         _loading.value = true
         viewModelScope.launch {
-            // NOTE: Any coroutine launched in this scope is
-            // automatically canceled if the ViewModel is cleared.
             _isFavorite.postValue(movieRepository.isInFavorite(movieId))
 
             val result = when (type) {

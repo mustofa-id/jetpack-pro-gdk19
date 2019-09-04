@@ -95,7 +95,7 @@ fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
     ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]
 
 fun FragmentActivity.snackItObserve(message: LiveData<Int>, lifecycleOwner: LifecycleOwner) {
-    message.observe(lifecycleOwner, Observer { snackIt(getString(it)) })
+    message.observe(lifecycleOwner, Observer { it?.let { m -> snackIt(getString(m)) } })
 }
 
 // ---> Gson

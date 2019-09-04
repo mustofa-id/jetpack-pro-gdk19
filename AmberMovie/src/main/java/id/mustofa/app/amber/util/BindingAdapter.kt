@@ -5,11 +5,12 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import id.mustofa.app.amber.base.BaseModel
-import id.mustofa.app.amber.base.SimpleRecyclerAdapter
 import id.mustofa.app.amber.data.Genre
 
 /**
@@ -22,10 +23,17 @@ fun shown(view: View, shown: Boolean) {
 }
 
 @Suppress("UNCHECKED_CAST")
-@BindingAdapter("app:items")
-fun <T : BaseModel> RecyclerView.setItems(items: List<T>?) {
-    val itemAdapter = adapter as SimpleRecyclerAdapter<T>?
-    items?.let { itemAdapter?.populateData(it) }
+@BindingAdapter("app:list")
+fun <T, VH : RecyclerView.ViewHolder> RecyclerView.setList(list: List<T>?) {
+    val listAdapter = adapter as ListAdapter<T, VH>
+    list?.let { listAdapter.submitList(it) }
+}
+
+@Suppress("UNCHECKED_CAST")
+@BindingAdapter("app:list")
+fun <T, VH : RecyclerView.ViewHolder> RecyclerView.setList(list: PagedList<T>?) {
+    val listAdapter = adapter as PagedListAdapter<T, VH>
+    list?.let { listAdapter.submitList(it) }
 }
 
 @BindingAdapter("app:srcSmall")
@@ -33,7 +41,6 @@ fun ImageView.load185(path: String?) {
     path?.let { loadTmdbImage(it) }
 }
 
-// TODO: Maybe can remove this when use default value
 @BindingAdapter("app:srcLive")
 fun ImageButton.srcLive(resId: Int?) {
     resId?.let { setImageResource(it) }

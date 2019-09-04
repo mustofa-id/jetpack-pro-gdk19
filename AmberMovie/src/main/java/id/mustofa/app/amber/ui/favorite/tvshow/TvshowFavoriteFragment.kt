@@ -7,38 +7,40 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.base.BindingFragment
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.databinding.FragmentMovieBinding
+import id.mustofa.app.amber.databinding.FragmentFavoriteBinding
 import id.mustofa.app.amber.ui.detail.DetailMovieActivity
 import id.mustofa.app.amber.ui.favorite.FavoriteAdapter
 import id.mustofa.app.amber.util.*
-import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_favorite.*
 
-class TvshowFavoriteFragment : BindingFragment<FragmentMovieBinding>(R.layout.fragment_movie) {
+class TvshowFavoriteFragment :
+    BindingFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {
 
-    private lateinit var adapter: FavoriteAdapter
+    private val adapter = FavoriteAdapter { openDetail(it) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupAdapter()
         setupRecyclerView()
         setupViewModel()
     }
 
-    private fun setupAdapter() {
-        adapter = FavoriteAdapter()
-        adapter.setOnItemClickListener { openDetail(it) }
+    override fun onResume() {
+        super.onResume()
+        binding?.viewModel?.fetchMovies()
     }
 
     private fun setupRecyclerView() {
-        rvMovie.setHasFixedSize(true)
-        rvMovie.layoutManager = LinearLayoutManager(context)
-        rvMovie.adapter = adapter
+        rvFavorite.setHasFixedSize(true)
+        rvFavorite.layoutManager = LinearLayoutManager(context)
+        rvFavorite.adapter = adapter
     }
 
     private fun setupViewModel() {
-        val fragmentActivity = activity as FragmentActivity
-        binding?.viewModel = fragmentActivity.obtainViewModel(TvshowFavoriteViewModel::class)
-        binding?.viewModel?.run { fragmentActivity.snackItObserve(message, viewLifecycleOwner) }
+        val activity = activity as FragmentActivity
+        binding?.run {
+            viewModel = activity.obtainViewModel(TvshowFavoriteViewModel::class)
+            viewModel?.run { activity.snackItObserve(message, viewLifecycleOwner) }
+        }
     }
 
     private fun openDetail(movie: Movie) {
@@ -47,5 +49,4 @@ class TvshowFavoriteFragment : BindingFragment<FragmentMovieBinding>(R.layout.fr
             putExtra(Const.EXTRA_MOVIE_TYPE, MediaType.TV)
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package id.mustofa.app.amber.data.source
 
+import androidx.paging.DataSource
 import id.mustofa.app.amber.base.BaseRepository
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result
@@ -53,11 +54,11 @@ class DefaultMovieRepository private constructor(
         return networkCall { remoteDataSource.getMovieById(id, MediaType.TV) }
     }
 
-    override suspend fun getMovieFavorites(): Result<List<Movie>> {
+    override suspend fun getMovieFavorites(): Result<DataSource.Factory<Int, Movie>> {
         return localCall { localDataSource.getFavorites(MediaType.MOVIE) }
     }
 
-    override suspend fun getTvshowFavorites(): Result<List<Movie>> {
+    override suspend fun getTvshowFavorites(): Result<DataSource.Factory<Int, Movie>> {
         return localCall { localDataSource.getFavorites(MediaType.TV) }
     }
 

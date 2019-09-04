@@ -6,33 +6,27 @@ import androidx.recyclerview.widget.GridLayoutManager
 import id.mustofa.app.amber.R
 import id.mustofa.app.amber.base.BindingFragment
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.databinding.FragmentMovieBinding
+import id.mustofa.app.amber.databinding.FragmentDiscoverBinding
 import id.mustofa.app.amber.ui.detail.DetailMovieActivity
 import id.mustofa.app.amber.ui.discover.DiscoverAdapter
 import id.mustofa.app.amber.util.*
-import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_discover.*
 
-class MovieFragment : BindingFragment<FragmentMovieBinding>(R.layout.fragment_movie) {
+class MovieFragment : BindingFragment<FragmentDiscoverBinding>(R.layout.fragment_discover) {
 
-    private lateinit var adapter: DiscoverAdapter
+    private val adapter = DiscoverAdapter { openDetail(it) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupAdapter()
         setupRecyclerView()
         setupViewModel()
     }
 
-    private fun setupAdapter() {
-        adapter = DiscoverAdapter()
-        adapter.setOnItemClickListener { openDetail(it) }
-    }
-
     private fun setupRecyclerView() {
         val span = context?.resources?.getInteger(R.integer.grid_span_movie) ?: 3
-        rvMovie.setHasFixedSize(true)
-        rvMovie.layoutManager = GridLayoutManager(context, span)
-        rvMovie.adapter = adapter
+        rvDiscover.setHasFixedSize(true)
+        rvDiscover.layoutManager = GridLayoutManager(context, span)
+        rvDiscover.adapter = adapter
     }
 
     private fun setupViewModel() {

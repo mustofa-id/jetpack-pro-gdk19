@@ -1,9 +1,9 @@
 package id.mustofa.app.amber.data
 
+import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import id.mustofa.app.amber.base.BaseModel
 import id.mustofa.app.amber.util.MediaType
 
 /**
@@ -14,27 +14,33 @@ import id.mustofa.app.amber.util.MediaType
 data class Movie(
 
     @PrimaryKey
-    override var id: Long = -1,
+    val id: Long = -1,
 
     @SerializedName(value = "title", alternate = ["name"])
-    var title: String = "",
+    val title: String = "",
 
-    var overview: String = "",
+    val overview: String = "",
 
     @SerializedName(value = "release_date", alternate = ["first_air_date"])
-    var releaseDate: String = "",
+    val releaseDate: String = "",
 
     @SerializedName("vote_average")
-    var voteAverage: Float = 0F,
+    val voteAverage: Float = 0F,
 
-    var genres: List<Genre> = emptyList(),
+    val genres: List<Genre> = emptyList(),
 
     @SerializedName("poster_path")
-    var posterPath: String = "",
+    val posterPath: String = "",
 
     @SerializedName("backdrop_path")
-    var backdropPath: String = "",
+    val backdropPath: String = "",
 
-    var mediaType: MediaType
+    var mediaType: MediaType = MediaType.MOVIE
 
-) : BaseModel()
+) {
+
+    object DiffCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(o: Movie, n: Movie) = o.id == n.id
+        override fun areContentsTheSame(o: Movie, n: Movie) = o == n
+    }
+}
