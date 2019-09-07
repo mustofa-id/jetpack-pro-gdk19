@@ -1,9 +1,8 @@
-package id.mustofa.app.amber.ui.movie
+package id.mustofa.app.amber.ui.favorite.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import id.mustofa.app.amber.LiveDataTestUtil
 import id.mustofa.app.amber.MainCoroutineRule
-import id.mustofa.app.amber.R
 import id.mustofa.app.amber.data.FakeMovieData
 import id.mustofa.app.amber.data.source.FakeMovieRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,10 +13,10 @@ import org.junit.Test
 
 /**
  * @author Habib Mustofa
- * Indonesia on 06/08/19
+ * Indonesia on 06/09/19
  */
 @ExperimentalCoroutinesApi
-class MovieViewModelTest {
+class MovieFavoriteViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -25,7 +24,7 @@ class MovieViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private lateinit var viewModel: MovieViewModel
+    private lateinit var viewModel: MovieFavoriteViewModel
     private lateinit var movieRepository: FakeMovieRepository
 
     private val fakeMovies = FakeMovieData.getMovies()
@@ -33,34 +32,22 @@ class MovieViewModelTest {
     @Before
     fun setup() {
         movieRepository = FakeMovieRepository()
-        movieRepository.addMovies(*fakeMovies.toTypedArray())
+        movieRepository.addLocalMovies(*fakeMovies.toTypedArray())
 
-        viewModel = MovieViewModel(movieRepository)
+        viewModel = MovieFavoriteViewModel(movieRepository)
     }
 
     @Test
-    fun `get all movies`() {
-        viewModel.fetchAllMovies()
-
-        val liveData = viewModel.allMovies
-        assertNotNull(LiveDataTestUtil.getValue(liveData))
-        assertEquals(LiveDataTestUtil.getValue(liveData), fakeMovies)
+    fun `get all movie favorites`() {
+        viewModel.fetchMovies()
+        assertNotNull(LiveDataTestUtil.getValue(viewModel.movies))
+        assertEquals(fakeMovies.size, LiveDataTestUtil.getValue(viewModel.movies).size)
     }
 
     @Test
-    fun `get error movies`() {
-        movieRepository.shouldReturnError = true
-
-        viewModel.fetchAllMovies(true)
-
-        assertTrue(LiveDataTestUtil.getValue(viewModel.allMovies).isEmpty())
-        assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_something_wrong)
-    }
-
-    @Test
-    fun `get all movies and loading`() {
+    fun `get movie loading`() {
         mainCoroutineRule.pauseDispatcher()
-        viewModel.fetchAllMovies()
+        viewModel.fetchMovies()
         assertTrue(LiveDataTestUtil.getValue(viewModel.loading))
 
         mainCoroutineRule.resumeDispatcher()

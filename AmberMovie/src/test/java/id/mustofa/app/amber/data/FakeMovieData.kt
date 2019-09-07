@@ -1,5 +1,7 @@
 package id.mustofa.app.amber.data
 
+import id.mustofa.app.amber.util.MediaType
+
 /**
  * @author Habib Mustofa
  * Indonesia on 17/08/19
@@ -15,7 +17,8 @@ object FakeMovieData {
             6.5F,
             listOf(Genre(28, "Action")),
             "/keym7MPn1icW1wWfzMnW3HeuzWU.jpg",
-            "/hpgda6P9GutvdkDX5MUJ92QG9aj.jpg"
+            "/hpgda6P9GutvdkDX5MUJ92QG9aj.jpg",
+            MediaType.MOVIE
         ),
         Movie(
             429203,
@@ -25,7 +28,8 @@ object FakeMovieData {
             6.4F,
             listOf(Genre(35, "Comedy"), Genre(80, "Crime"), Genre(18, "Drama")),
             "/a4BfxRK8dBgbQqbRxPs8kmLd8LG.jpg",
-            "/8bRIfPGDnmWgdy65LO8xtdcFmFP.jpg"
+            "/8bRIfPGDnmWgdy65LO8xtdcFmFP.jpg",
+            MediaType.MOVIE
         ),
         Movie(
             420818,
@@ -41,7 +45,8 @@ object FakeMovieData {
                 Genre(28, "Action")
             ),
             "/2bXbqYdUdNVa8VIWXVfclP2ICtT.jpg",
-            "/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg"
+            "/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg",
+            MediaType.MOVIE
         )
     )
 
@@ -54,7 +59,8 @@ object FakeMovieData {
             6.6F,
             listOf(),
             "/fki3kBlwJzFp8QohL43g9ReV455.jpg",
-            "/jC1KqsFx8ZyqJyQa2Ohi7xgL7XC.jpg"
+            "/jC1KqsFx8ZyqJyQa2Ohi7xgL7XC.jpg",
+            MediaType.TV
         ),
         Movie(
             62286,
@@ -64,7 +70,8 @@ object FakeMovieData {
             6.3F,
             listOf(Genre(18, "Drama"), Genre(27, "Horror")),
             "/lZMb3R3e5vqukPbeDMeyYGf2ZNG.jpg",
-            "/nUXzdD2Jo3wV9Q7mIZjK46Yyty4.jpg"
+            "/nUXzdD2Jo3wV9Q7mIZjK46Yyty4.jpg",
+            MediaType.TV
         ),
         Movie(
             1412,
@@ -79,7 +86,8 @@ object FakeMovieData {
                 Genre(10759, "Action & Adventure")
             ),
             "/mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
-            "/dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg"
+            "/dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg",
+            MediaType.TV
         )
     )
 

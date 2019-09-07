@@ -35,10 +35,10 @@ class DetailMovieViewModelTest {
     @Before
     fun setup() {
         movieRepository = FakeMovieRepository()
-        movieRepository.addMovies(fakeMovie)
+        movieRepository.addNetworkMovies(fakeMovie)
 
         viewModel = DetailMovieViewModel(movieRepository)
-        viewModel.type = MediaType.TV
+        viewModel.type = MediaType.MOVIE
     }
 
     @Test
@@ -76,5 +76,17 @@ class DetailMovieViewModelTest {
 
         mainCoroutineRule.resumeDispatcher()
         assertFalse(LiveDataTestUtil.getValue(viewModel.loading))
+    }
+
+    @Test
+    fun `toggle movie favorite`() {
+        viewModel.movieId = movieId
+        viewModel.fetchMovie()
+
+        viewModel.toggleFavorite()
+        assertEquals(LiveDataTestUtil.getValue(viewModel.favoriteIcon), R.drawable.ic_not_favorite)
+
+        viewModel.toggleFavorite()
+        assertEquals(LiveDataTestUtil.getValue(viewModel.favoriteIcon), R.drawable.ic_favorite)
     }
 }

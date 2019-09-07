@@ -1,4 +1,4 @@
-package id.mustofa.app.amber.ui.tvshow
+package id.mustofa.app.amber.ui.discover.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import id.mustofa.app.amber.LiveDataTestUtil
@@ -17,7 +17,7 @@ import org.junit.Test
  * Indonesia on 06/08/19
  */
 @ExperimentalCoroutinesApi
-class TvshowViewModelTest {
+class MovieViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -25,42 +25,42 @@ class TvshowViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private lateinit var viewModel: TvshowViewModel
+    private lateinit var viewModel: MovieViewModel
     private lateinit var movieRepository: FakeMovieRepository
 
-    private val fakeTvshows = FakeMovieData.getTvshows()
+    private val fakeMovies = FakeMovieData.getMovies()
 
     @Before
     fun setup() {
         movieRepository = FakeMovieRepository()
-        movieRepository.addMovies(*fakeTvshows.toTypedArray())
+        movieRepository.addNetworkMovies(*fakeMovies.toTypedArray())
 
-        viewModel = TvshowViewModel(movieRepository)
+        viewModel = MovieViewModel(movieRepository)
     }
 
     @Test
-    fun `get all tvshows`() {
-        viewModel.fetchAllTvshows()
+    fun `get all movies`() {
+        viewModel.fetchMovies()
 
-        val liveData = viewModel.allTvshows
+        val liveData = viewModel.movies
         assertNotNull(LiveDataTestUtil.getValue(liveData))
-        assertEquals(LiveDataTestUtil.getValue(liveData), fakeTvshows)
+        assertEquals(LiveDataTestUtil.getValue(liveData), fakeMovies)
     }
 
     @Test
-    fun `get error tvshows`() {
+    fun `get error movies`() {
         movieRepository.shouldReturnError = true
 
-        viewModel.fetchAllTvshows(true)
+        viewModel.fetchMovies(true)
 
-        assertTrue(LiveDataTestUtil.getValue(viewModel.allTvshows).isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(viewModel.movies).isEmpty())
         assertEquals(LiveDataTestUtil.getValue(viewModel.message), R.string.msg_something_wrong)
     }
 
     @Test
-    fun `get all tvshows and loading`() {
+    fun `get all movies and loading`() {
         mainCoroutineRule.pauseDispatcher()
-        viewModel.fetchAllTvshows()
+        viewModel.fetchMovies()
         assertTrue(LiveDataTestUtil.getValue(viewModel.loading))
 
         mainCoroutineRule.resumeDispatcher()
