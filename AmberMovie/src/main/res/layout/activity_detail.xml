@@ -106,6 +106,7 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
                     <ImageButton
+                        android:id="@+id/btnFavorite"
                         style="@style/Widget.AppCompat.ActionButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

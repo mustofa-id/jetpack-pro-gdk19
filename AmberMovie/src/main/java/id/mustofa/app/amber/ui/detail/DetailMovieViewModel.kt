@@ -33,14 +33,11 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
         if (it) R.drawable.ic_favorite else R.drawable.ic_not_favorite
     }
 
-    init {
-        fetchMovie()
-    }
-
     fun fetchMovie() {
         _loading.value = true
         viewModelScope.launch {
-            _isFavorite.postValue(movieRepository.isInFavorite(movieId))
+            val inFavorite = movieRepository.isInFavorite(movieId)
+            _isFavorite.postValue(inFavorite)
 
             val result = when (type) {
                 MediaType.MOVIE -> movieRepository.getMovieById(movieId)
@@ -49,9 +46,20 @@ class DetailMovieViewModel(private val movieRepository: MovieRepository) : ViewM
 
             when (result) {
                 is Success -> _movie.postValue(result.data)
-                is Error -> _message.postValue(result.message)
+                is Error ->
+                    if (inFavorite) loadFromFavorite()
+                    else _message.postValue(result.message)
             }
             _loading.postValue(false)
+        }
+    }
+
+    private fun loadFromFavorite() {
+        viewModelScope.launch {
+            when (val result = movieRepository.getFavoriteById(movieId)) {
+                is Success -> _movie.postValue(result.data)
+                is Error -> _message.postValue(result.message)
+            }
         }
     }
 

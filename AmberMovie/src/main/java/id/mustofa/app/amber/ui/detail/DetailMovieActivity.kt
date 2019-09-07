@@ -63,6 +63,7 @@ class DetailMovieActivity : AppCompatActivity() {
         intent.run {
             viewModel.type = getSerializableExtra(Const.EXTRA_MOVIE_TYPE) as MediaType
             viewModel.movieId = getLongExtra(Const.EXTRA_MOVIE_ID, -1)
+            viewModel.fetchMovie()
         }
     }
 }

@@ -62,6 +62,10 @@ class DefaultMovieRepository private constructor(
         return localCall { localDataSource.getFavorites(MediaType.TV) }
     }
 
+    override suspend fun getFavoriteById(id: Long): Result<Movie> {
+        return localCall { localDataSource.getFavoriteById(id) }
+    }
+
     override suspend fun addMovieToFavorite(movie: Movie): Result<Long> {
         return localCall { localDataSource.addToFavorite(movie) }
     }

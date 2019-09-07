@@ -18,6 +18,9 @@ interface MovieLocalDataSource {
     @Query("SELECT * FROM movie_favorite WHERE mediaType=:type")
     fun getFavorites(type: MediaType): DataSource.Factory<Int, Movie>
 
+    @Query("SELECT * FROM movie_favorite WHERE id=:id")
+    suspend fun getFavoriteById(id: Long): Movie
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addToFavorite(movie: Movie): Long
 

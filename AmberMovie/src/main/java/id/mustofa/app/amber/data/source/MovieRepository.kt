@@ -23,6 +23,8 @@ interface MovieRepository {
 
     suspend fun getTvshowFavorites(): Result<DataSource.Factory<Int, Movie>>
 
+    suspend fun getFavoriteById(id: Long): Result<Movie>
+
     suspend fun addMovieToFavorite(movie: Movie): Result<Long>
 
     suspend fun removeMovieFromFavorite(movieId: Long): Result<Int>
