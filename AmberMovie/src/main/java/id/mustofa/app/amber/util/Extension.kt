@@ -6,9 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -60,24 +57,6 @@ fun Activity.toActivity(clz: KClass<*>, intent: (Intent.() -> Unit)? = null) {
     val activityIntent = Intent(applicationContext, clz.java)
     intent?.invoke(activityIntent)
     startActivity(activityIntent)
-}
-
-// TODO: remove if not used in main
-fun AppCompatActivity.bindFragment(
-    fragment: Fragment,
-    tag: String,
-    @IdRes container: Int = android.R.id.content,
-    replace: Boolean = false,
-    allowStateLoss: Boolean = false
-) {
-    supportFragmentManager
-        .beginTransaction().apply {
-            if (replace) replace(container, fragment, tag)
-            else add(container, fragment, tag)
-        }.run {
-            if (allowStateLoss) commitAllowingStateLoss()
-            else commit()
-        }
 }
 
 fun Activity.snackIt(

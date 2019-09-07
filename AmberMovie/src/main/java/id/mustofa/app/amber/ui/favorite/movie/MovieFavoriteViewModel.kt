@@ -8,7 +8,6 @@ import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result
 import id.mustofa.app.amber.data.source.MovieRepository
 import id.mustofa.app.amber.ui.favorite.FavoriteViewModel
-import id.mustofa.app.amber.util.SingleBoundaryCallback
 import kotlinx.coroutines.launch
 
 /**
@@ -23,9 +22,12 @@ class MovieFavoriteViewModel(
 
     override val movies: LiveData<PagedList<Movie>> = Transformations.switchMap(moviesResult) {
         if (it is Result.Success) it.data?.let { factory ->
-            LivePagedListBuilder(factory, 5)
-                .setBoundaryCallback(SingleBoundaryCallback<Movie> { _loading.value = false })
+            val config = PagedList.Config
+                .Builder()
+                .setPageSize(5)
+                .setEnablePlaceholders(false)
                 .build()
+            LivePagedListBuilder(factory, config).build()
         } else null
     }
 
@@ -41,6 +43,9 @@ class MovieFavoriteViewModel(
     override fun fetchMovies(force: Boolean) {
         if (force) moviesResult.value = null
         _loading.value = true
-        viewModelScope.launch { moviesResult.value = movieRepository.getMovieFavorites() }
+        viewModelScope.launch {
+            moviesResult.value = movieRepository.getMovieFavorites()
+            _loading.value = false
+        }
     }
 }
