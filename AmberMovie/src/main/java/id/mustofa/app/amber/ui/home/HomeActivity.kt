@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (closeable) super.onBackPressed()
         Handler().postDelayed({ closeable = false }, 2000)
-        snackIt(getString(R.string.msg_confirm_close))
+        homeNavContainer.snackIt(R.string.msg_confirm_close)
         closeable = true
     }
 
@@ -76,7 +76,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showAbout(): Boolean {
-        snackIt(getString(R.string.desc_about), Snackbar.LENGTH_INDEFINITE) {
+        homeNavContainer.snackIt(R.string.desc_about, Snackbar.LENGTH_INDEFINITE) {
             setAction(android.R.string.ok) { dismiss() }
         }
         return false

@@ -1,23 +1,23 @@
 package id.mustofa.app.amber.ui.detail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import com.google.android.material.chip.Chip
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.databinding.ActivityDetailBinding
+import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.util.*
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DetailMovieViewModel
-    private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupBinding()
+        setContentView(R.layout.activity_detail)
         setupToolbar()
         setupActions()
         setupViewModel()
@@ -25,15 +25,8 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-        }
+        if (item.itemId == android.R.id.home) onBackPressed()
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        binding.lifecycleOwner = this
     }
 
     private fun setupToolbar() {
@@ -42,21 +35,42 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun setupActions() {
-        detailFabTrailer.setOnClickListener {
-            snackIt(getString(R.string.msg_play_trailer), parent = it)
-        }
+        detailFabTrailer.setOnClickListener { it.snackIt(R.string.msg_play_trailer) }
+        btnFavorite.setOnClickListener { viewModel.toggleFavorite() }
     }
 
     private fun setupViewModel() {
-        viewModel = obtainViewModel(DetailMovieViewModel::class)
-        binding.viewModel = viewModel
-        snackItObserve(viewModel.message, this)
-        viewModel.movie.observe(this, Observer {
-            binding.apply {
-                movie = it
-                movieContent.movie = it
+        viewModel = obtainViewModel(DetailMovieViewModel::class).apply {
+            observe(movie) { populateMovie(it) }
+            observe(message) { detailFabTrailer.snackIt(it) }
+            observe(favoriteIcon) { btnFavorite.setImageResource(it) }
+            observe(loading) {
+                pbDetailMovie.visible(it)
+                detailAppBar.visible(!it)
+                contentDetail.visible(!it)
             }
-        })
+        }
+    }
+
+    private fun populateMovie(movie: Movie) {
+        with(movie) {
+            detailToolbarLayout.title = title
+            imgMovieDetailBackdrop.loadTmdbImage(backdropPath)
+            imgMovieDetailPoster.loadTmdbImage(posterPath)
+            rateMovieDetailRating.rating = voteAverage / 2
+            textMovieDetailTitle.text = title
+            textMovieDetailDate.text = releaseDate
+            textMovieDetailOverview.text = overview
+            cgMovieDetailGenres.apply {
+                genres.forEach {
+                    addView(Chip(this@DetailMovieActivity).apply {
+                        text = it.name
+                        isClickable = false
+                        setTextColor(Color.DKGRAY)
+                    })
+                }
+            }
+        }
     }
 
     private fun loadIntentExtras() {

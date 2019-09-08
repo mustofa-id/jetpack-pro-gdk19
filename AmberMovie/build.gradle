@@ -31,9 +31,6 @@ android {
             debuggable true
         }
     }
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {

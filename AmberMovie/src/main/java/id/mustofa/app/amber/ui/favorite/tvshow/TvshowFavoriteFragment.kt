@@ -5,17 +5,16 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.base.BindingFragment
+import id.mustofa.app.amber.base.BaseFragment
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.databinding.FragmentFavoriteBinding
 import id.mustofa.app.amber.ui.detail.DetailMovieActivity
 import id.mustofa.app.amber.ui.favorite.FavoriteAdapter
 import id.mustofa.app.amber.util.*
-import kotlinx.android.synthetic.main.fragment_favorite.*
+import kotlinx.android.synthetic.main.fragment_movie.*
 
-class TvshowFavoriteFragment :
-    BindingFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {
+class TvshowFavoriteFragment : BaseFragment(R.layout.fragment_movie) {
 
+    private lateinit var viewModel: TvshowFavoriteViewModel
     private val adapter = FavoriteAdapter { openDetail(it) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -26,20 +25,24 @@ class TvshowFavoriteFragment :
 
     override fun onResume() {
         super.onResume()
-        binding?.viewModel?.fetchMovies()
+        viewModel.fetchMovies()
     }
 
     private fun setupRecyclerView() {
-        rvFavorite.setHasFixedSize(true)
-        rvFavorite.layoutManager = LinearLayoutManager(context)
-        rvFavorite.adapter = adapter
+        rvMovie.setHasFixedSize(true)
+        rvMovie.layoutManager = LinearLayoutManager(context)
+        rvMovie.adapter = adapter
     }
 
     private fun setupViewModel() {
         val activity = activity as FragmentActivity
-        binding?.run {
-            viewModel = activity.obtainViewModel(TvshowFavoriteViewModel::class)
-            viewModel?.run { activity.snackItObserve(message, viewLifecycleOwner) }
+        viewModel = activity.obtainViewModel(TvshowFavoriteViewModel::class)
+        viewModel.apply {
+            observe(movies) { adapter.submitList(it) }
+            observe(loading) { rlMovie.isRefreshing = it }
+            observe(message) { rlMovie.snackIt(it) }
+            observe(empty) { emptyMovie.visible(it) }
+            rlMovie.setOnRefreshListener { fetchMovies(true) }
         }
     }
 

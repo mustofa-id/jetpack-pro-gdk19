@@ -3,4 +3,5 @@
     <color name="primary">#1F1F1F</color>
     <color name="accent">#FFE082</color> <!--amber 200-->
     <color name="background">#121212</color>
+    <color name="dark">#2B2B2B</color>
 </resources>

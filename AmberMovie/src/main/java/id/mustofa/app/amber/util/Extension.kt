@@ -4,10 +4,17 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
@@ -59,23 +66,12 @@ fun Activity.toActivity(clz: KClass<*>, intent: (Intent.() -> Unit)? = null) {
     startActivity(activityIntent)
 }
 
-fun Activity.snackIt(
-    message: CharSequence,
-    duration: Int = Snackbar.LENGTH_SHORT,
-    parent: View = findViewById(android.R.id.content),
-    self: (Snackbar.() -> Unit)? = null
-) {
-    val snack = Snackbar.make(parent, message, duration)
-    self?.invoke(snack)
-    snack.show()
+fun <T> AppCompatActivity.observe(liveData: LiveData<T>, block: (T) -> Unit) {
+    liveData.observe(this, Observer(block))
 }
 
 fun <T : ViewModel> FragmentActivity.obtainViewModel(viewModel: KClass<T>) =
     ViewModelProviders.of(this, ViewModelFactory.instance(application))[viewModel.java]
-
-fun FragmentActivity.snackItObserve(message: LiveData<Int>, lifecycleOwner: LifecycleOwner) {
-    message.observe(lifecycleOwner, Observer { it?.let { m -> snackIt(getString(m)) } })
-}
 
 // ---> Gson
 inline fun <reified T> Gson.fromJsonString(value: String): T =
@@ -83,3 +79,28 @@ inline fun <reified T> Gson.fromJsonString(value: String): T =
 
 inline fun <reified T> Gson.toJsonString(value: T): String =
     this.toJson(value, object : TypeToken<T>() {}.type)
+
+// ---> View
+fun ViewGroup.inflate(@LayoutRes layoutId: Int): View {
+    return LayoutInflater.from(context).inflate(layoutId, this, false)
+}
+
+fun View.visible(state: Boolean) {
+    visibility = if (state) View.VISIBLE else View.GONE
+}
+
+fun <T> View.snackIt(
+    message: T,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    self: (Snackbar.() -> Unit)? = null
+) {
+    when (message) {
+        is Int -> if (message != 0) context.getString(message) else null
+        is String -> message
+        else -> null
+    }?.let {
+        val snack = Snackbar.make(this, it, duration)
+        self?.invoke(snack)
+        snack.show()
+    }
+}

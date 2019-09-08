@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import id.mustofa.app.amber.R
-import id.mustofa.app.amber.base.BindingFragment
+import id.mustofa.app.amber.base.BaseFragment
 import id.mustofa.app.amber.data.Movie
-import id.mustofa.app.amber.databinding.FragmentDiscoverBinding
 import id.mustofa.app.amber.ui.detail.DetailMovieActivity
 import id.mustofa.app.amber.ui.discover.DiscoverAdapter
 import id.mustofa.app.amber.util.*
-import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.fragment_movie.*
 
-class MovieFragment : BindingFragment<FragmentDiscoverBinding>(R.layout.fragment_discover) {
+class MovieFragment : BaseFragment(R.layout.fragment_movie) {
 
     private val adapter = DiscoverAdapter { openDetail(it) }
 
@@ -24,15 +23,19 @@ class MovieFragment : BindingFragment<FragmentDiscoverBinding>(R.layout.fragment
 
     private fun setupRecyclerView() {
         val span = context?.resources?.getInteger(R.integer.grid_span_movie) ?: 3
-        rvDiscover.setHasFixedSize(true)
-        rvDiscover.layoutManager = GridLayoutManager(context, span)
-        rvDiscover.adapter = adapter
+        rvMovie.setHasFixedSize(true)
+        rvMovie.layoutManager = GridLayoutManager(context, span)
+        rvMovie.adapter = adapter
     }
 
     private fun setupViewModel() {
-        val fragmentActivity = activity as FragmentActivity
-        binding?.viewModel = fragmentActivity.obtainViewModel(MovieViewModel::class)
-        binding?.viewModel?.run { fragmentActivity.snackItObserve(message, viewLifecycleOwner) }
+        (activity as FragmentActivity).obtainViewModel(MovieViewModel::class).apply {
+            observe(movies) { adapter.submitList(it) }
+            observe(loading) { rlMovie.isRefreshing = it }
+            observe(message) { rlMovie.snackIt(it) }
+            observe(empty) { emptyMovie.visible(it) }
+            rlMovie.setOnRefreshListener { fetchMovies(true) }
+        }
     }
 
     private fun openDetail(movie: Movie) {

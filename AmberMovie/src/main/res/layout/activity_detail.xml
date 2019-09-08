@@ -1,152 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.detail.DetailMovieActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <ProgressBar
+        android:id="@+id/pbDetailMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".ui.detail.DetailMovieActivity">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.core.widget.NestedScrollView
+        <include layout="@layout/content_detail" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/detailAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/detailToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <include
-                android:id="@+id/movieContent"
-                layout="@layout/content_detail" />
-        </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/detailAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="center|bottom"
+            app:expandedTitleTextAppearance="@style/TextAppearance.TransparentText"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/detailToolbar">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/detailToolbarLayout"
+            <ImageView
+                android:id="@+id/imgMovieDetailBackdrop"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_detail_backdrop_height"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/desc_image_backdrop"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/backgrounds/scenic[14]" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleGravity="center|bottom"
-                app:expandedTitleTextAppearance="@style/TextAppearance.TransparentText"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:title="@{movie.title}"
-                app:toolbarId="@+id/detailToolbar">
+                android:background="#D9242424"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imgMovieDetailBackdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_detail_backdrop_height"
+                    android:id="@+id/imgMovieDetailPoster"
+                    android:layout_width="@dimen/image_detail_poster_width"
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/desc_image_backdrop"
-                    android:scaleType="centerCrop"
-                    app:srcSmall="@{movie.backdropPath}"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic[14]" />
+                    android:contentDescription="@string/desc_image_poster"
+                    tools:srcCompat="@tools:sample/avatars[8]" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#D9242424"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <RatingBar
+                    android:id="@+id/rateMovieDetailRating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_distance_tiny"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0" />
 
-                    <ImageView
-                        android:id="@+id/imgMovieDetailPoster"
-                        android:layout_width="@dimen/image_detail_poster_width"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="@string/desc_image_poster"
-                        app:srcSmall="@{movie.posterPath}"
-                        tools:srcCompat="@tools:sample/avatars[8]" />
+                <TextView
+                    android:id="@+id/textMovieDetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_distance_small"
+                    android:paddingStart="@dimen/view_distance_small"
+                    android:paddingEnd="@dimen/view_distance_small"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:text="@tools:sample/full_names[6]" />
 
-                    <RatingBar
-                        android:id="@+id/rateMovieDetailRating"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/view_distance_tiny"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        android:rating="@{movie.voteAverage / 2}"
-                        android:stepSize="0"
-                        app:shown="@{!viewModel.loading}" />
+                <TextView
+                    android:id="@+id/textMovieDetailDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_distance_tiny"
+                    tools:text="@tools:sample/date/ddmmyy" />
 
-                    <TextView
-                        android:id="@+id/textMovieDetailTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/view_distance_small"
-                        android:paddingStart="@dimen/view_distance_small"
-                        android:paddingEnd="@dimen/view_distance_small"
-                        android:text="@{movie.title}"
-                        android:textAlignment="center"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        tools:text="@tools:sample/full_names[6]" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/textMovieDetailDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/view_distance_tiny"
-                        android:text="@{movie.releaseDate}"
-                        tools:text="@tools:sample/date/ddmmyy" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/detailToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnFavorite"
+                    style="@style/Widget.AppCompat.ActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/app_name" />
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/detailToolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
+            </androidx.appcompat.widget.Toolbar>
 
-                    <ImageButton
-                        android:id="@+id/btnFavorite"
-                        style="@style/Widget.AppCompat.ActionButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:contentDescription="@string/app_name"
-                        android:onClick="@{() -> viewModel.toggleFavorite()}"
-                        app:srcLive="@{viewModel.favoriteIcon}" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-                </androidx.appcompat.widget.Toolbar>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/detailFabTrailer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/detailAppBar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_play" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/detailFabTrailer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@id/detailAppBar"
-            app:layout_anchorGravity="bottom|end"
-            app:shown="@{!viewModel.loading}"
-            app:srcCompat="@drawable/ic_play" />
-
-        <ProgressBar
-            android:id="@+id/pbDetailMovie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:shown="@{viewModel.loading}" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <data>
-
-        <variable
-            name="movie"
-            type="id.mustofa.app.amber.data.Movie" />
-
-        <variable
-            name="viewModel"
-            type="id.mustofa.app.amber.ui.detail.DetailMovieViewModel" />
-    </data>
-</layout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

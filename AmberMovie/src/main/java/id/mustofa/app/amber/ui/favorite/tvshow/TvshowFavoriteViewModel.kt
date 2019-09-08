@@ -7,20 +7,17 @@ import androidx.paging.PagedList
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.data.Result
 import id.mustofa.app.amber.data.source.MovieRepository
-import id.mustofa.app.amber.ui.favorite.FavoriteViewModel
 import kotlinx.coroutines.launch
 
 /**
  * @author Habib Mustofa
  * Indonesia on 26/08/19
  */
-class TvshowFavoriteViewModel(
-    private val movieRepository: MovieRepository
-) : FavoriteViewModel, ViewModel() {
+class TvshowFavoriteViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     private val tvshowsResult = MutableLiveData<Result<DataSource.Factory<Int, Movie>>>()
 
-    override val movies: LiveData<PagedList<Movie>> = Transformations.switchMap(tvshowsResult) {
+    val movies: LiveData<PagedList<Movie>> = Transformations.switchMap(tvshowsResult) {
         if (it is Result.Success) it.data?.let { factory ->
             val config = PagedList.Config
                 .Builder()
@@ -31,16 +28,16 @@ class TvshowFavoriteViewModel(
         } else null
     }
 
-    override val message: LiveData<Int> = Transformations.map(tvshowsResult) {
-        if (it is Result.Error) it.message else null
+    val message: LiveData<Int> = Transformations.map(tvshowsResult) {
+        if (it is Result.Error) it.message else 0
     }
 
-    override val empty: LiveData<Boolean> = Transformations.map(movies) { it.isEmpty() }
+    val empty: LiveData<Boolean> = Transformations.map(movies) { it.isEmpty() }
 
     private val _loading = MutableLiveData<Boolean>()
-    override val loading: LiveData<Boolean> get() = _loading
+    val loading: LiveData<Boolean> get() = _loading
 
-    override fun fetchMovies(force: Boolean) {
+    fun fetchMovies(force: Boolean = false) {
         if (force) tvshowsResult.value = null
         _loading.value = true
         viewModelScope.launch {

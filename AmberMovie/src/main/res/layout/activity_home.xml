@@ -35,19 +35,24 @@
         android:nestedScrollingEnabled="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/homeNav"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+    <LinearLayout
+        android:id="@+id/homeNavContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/primary"
-        android:elevation="@dimen/view_distance_medium"
-        app:itemHorizontalTranslationEnabled="true"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="auto"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        app:menu="@menu/home_bottom_nav" />
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/homeNav"
+            style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:elevation="@dimen/view_distance_medium"
+            app:itemHorizontalTranslationEnabled="true"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:labelVisibilityMode="auto"
+            app:menu="@menu/home_bottom_nav" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
