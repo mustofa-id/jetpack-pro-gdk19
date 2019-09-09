@@ -77,11 +77,10 @@ class DetailMovieActivityTest {
 
     @Test
     fun toggleFavorite() {
+        onView(withId(R.id.btnFavorite)).check(matches(isDisplayed())).perform(click())
         try {
-            onView(withId(R.id.btnFavorite)).perform(click())
             onView(withText(R.string.msg_added_favorite)).check(matches(isDisplayed()))
         } catch (e: NoMatchingViewException) {
-            onView(withId(R.id.btnFavorite)).perform(click())
             onView(withText(R.string.msg_removed_favorite)).check(matches(isDisplayed()))
         }
     }

@@ -46,7 +46,7 @@ class TvshowFavoriteFragmentTest {
     }
 
     @Test
-    fun loadMovies() {
+    fun loadFavoriteTvshows() {
         val movieCount = dao.countFavoriteByType(MediaType.TV)
         onView(withId(R.id.rvMovie)).check(matches(isDisplayed()))
         onView(withId(R.id.rvMovie)).check(RecyclerViewItemCountAssertion(movieCount))
