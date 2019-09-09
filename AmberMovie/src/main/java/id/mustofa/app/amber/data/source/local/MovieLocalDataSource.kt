@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import id.mustofa.app.amber.data.Movie
 import id.mustofa.app.amber.util.MediaType
+import org.jetbrains.annotations.TestOnly
 
 /**
  * @author Habib Mustofa
@@ -29,4 +30,8 @@ interface MovieLocalDataSource {
 
     @Query("SELECT count(id) FROM movie_favorite WHERE id=:id")
     suspend fun isInFavorite(id: Long): Int
+
+    @TestOnly
+    @Query("SELECT count(id) FROM movie_favorite WHERE mediaType=:type")
+    fun countFavoriteByType(type: MediaType): Int
 }

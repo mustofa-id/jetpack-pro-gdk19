@@ -3,6 +3,8 @@ package id.mustofa.app.amber.ui.detail
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
@@ -71,5 +73,16 @@ class DetailMovieActivityTest {
     fun loadImages() {
         onView(withId(R.id.imgMovieDetailPoster)).check(matches(isDisplayed()))
         onView(withId(R.id.imgMovieDetailBackdrop)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun toggleFavorite() {
+        try {
+            onView(withId(R.id.btnFavorite)).perform(click())
+            onView(withText(R.string.msg_added_favorite)).check(matches(isDisplayed()))
+        } catch (e: NoMatchingViewException) {
+            onView(withId(R.id.btnFavorite)).perform(click())
+            onView(withText(R.string.msg_removed_favorite)).check(matches(isDisplayed()))
+        }
     }
 }
