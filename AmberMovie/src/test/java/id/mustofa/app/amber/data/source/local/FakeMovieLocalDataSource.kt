@@ -30,4 +30,8 @@ class FakeMovieLocalDataSource(private val movies: MutableList<Movie>) : MovieLo
     override suspend fun isInFavorite(id: Long): Int {
         return if (movies.firstOrNull { it.id == id } != null) 1 else 0
     }
+
+    override fun countFavoriteByType(type: MediaType): Int {
+        TODO("not implemented")
+    }
 }
