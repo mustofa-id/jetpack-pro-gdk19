@@ -27,21 +27,43 @@ tmdb.apikey=1234567891011121314151617181920X
         * Membuka halaman DetailMovieActivity
         * Memastikan gambar poster tampil
         * Memastikan gambar backdrop tampil
+    * Menambahkan/Menghapus Favorite
+        * Membuka halaman DetailMovieActivity
+        * Memastikan tombol favorite tampil dan memberi aksi klik
+        * Mengecek teks pesan ditambahkan atau dihapus dari favorite
 
 * AmberMovieTest:
     * Menampilkan Tab dan Halaman
         * Memastikan jumlah tab yang tampil 2 tab
         * Memastikan judul tab yang tampil Movie dan Tv Show
-    * Berpindah ke DetailMovieActivity
-        * Memastikan RecyclerView pada halaman Movie tampil
-        * Memberi aksi klik pada item pertama RecyclerView Movie
+    * Menampilkan Detail Movie
+        * Mengklik menu item Discover pada BottomNavigationBar
+        * Mengecek title pada toolbar sesuai dengan menu item yang diklik (Discover)
+        * Memastikan RecyclerView pada halaman Discover Movie tampil
+        * Memberi aksi klik pada item pertama RecyclerView Discover Movie
         * Memastikan TextView judul film sudah tampil
-        * Memastikan nilai dari judul film sesuai harapan
-        * Memberi aksi tombol kembali
-        * Memberi aksi geser untuk berpindah ke halaman Tv Show
-        * Memberi aksi klik pada item pertama RecyclerView Tv Show
-        * Memastikan TextView acara tv film sudah tampil
-        * Memastikan nilai dari judul acara tv sesuai harapan
+        * Memberi aksi klik pada tombol favorite
+        * Mengecek teks pesan ditambahkan atau dihapus dari favorite
+        * Memberi aksi pada tombol kembali
+        * Mengklik menu item Favorite pada BottomNavigationBar
+        * Mengecek title pada toolbar sesuai dengan menu item yang diklik (Favorite)
+        * Memastikan RecyclerView pada halaman Favorite Movie tampil
+        * Memberi aksi klik pada item pertama RecyclerView Favorite Movie atau mengecek pesan empty
+        * Memastikan TextView judul film sudah tampil
+    * Menampilkan Detail Tvshow
+        * Mengklik menu item Discover pada BottomNavigationBar
+        * Mengecek title pada toolbar sesuai dengan menu item yang diklik (Discover)
+        * Memastikan RecyclerView pada halaman Discover Tvshow tampil
+        * Memberi aksi klik pada item pertama RecyclerView Discover Tvshow
+        * Memastikan TextView judul acara tv sudah tampil
+        * Memberi aksi klik pada tombol favorite
+        * Mengecek teks pesan ditambahkan atau dihapus dari favorite
+        * Memberi aksi pada tombol kembali
+        * Mengklik menu item Favorite pada BottomNavigationBar
+        * Mengecek title pada toolbar sesuai dengan menu item yang diklik (Favorite)
+        * Memastikan RecyclerView pada halaman Favorite Tvshow tampil
+        * Memberi aksi klik pada item pertama RecyclerView Favorite Tvshow atau mengecek pesan empty
+        * Memastikan TextView judul acara tv sudah tampil
 
 * MovieFragmentTest:
     * Memuat data Movies
@@ -52,5 +74,17 @@ tmdb.apikey=1234567891011121314151617181920X
 * TvshowFragmentTest:
     * Memuat data TvShows
         * Membuka halaman TvshowFragment
+        * Memastikan RecyclerView dapat tampil
+        * Memastikan jumlah item pada RecyclerView sesuai harapan
+
+* MovieFavoriteFragmentTest:
+    * Memuat data favorite Movies
+        * Membuka halaman MovieFavoriteFragment
+        * Memastikan RecyclerView dapat tampil
+        * Memastikan jumlah item pada RecyclerView sesuai harapan
+
+* TvshowFavoriteFragmentTest:
+    * Memuat data favorite TvShows
+        * Membuka halaman TvshowFavoriteFragment
         * Memastikan RecyclerView dapat tampil
         * Memastikan jumlah item pada RecyclerView sesuai harapan
